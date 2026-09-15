@@ -1,0 +1,45 @@
+Package: vapvAgronomyManagementStudy
+Title: Vertical Agrivoltaics Study 2 -- Agronomic Management Pipeline
+Version: 0.1.0
+Authors@R: person("Magnus Kamau Katana", "Lindhardt", email = "kamaulindhardt@gmail.com", role = c("aut", "cre"))
+Description: A targets-framework reproducible pipeline for Study 2 (agronomic
+    management -- fertilisation x crop-residue treatments) of the Value4Farm
+    vertical agrivoltaics PhD project at Aarhus University, Foulum. Not a
+    distributable R package; this DESCRIPTION exists solely to drive renv's
+    explicit dependency snapshot (see renv::settings$snapshot.type()).
+License: CC0
+Encoding: UTF-8
+Imports:
+    targets,
+    tarchetypes,
+    tidyverse,
+    dplyr,
+    tidyr,
+    readr,
+    tibble,
+    stringr,
+    lubridate,
+    purrr,
+    forcats,
+    rlang,
+    readxl,
+    janitor,
+    glmmTMB,
+    DHARMa,
+    emmeans,
+    car,
+    lme4,
+    broom.mixed,
+    gt,
+    gtable,
+    kableExtra,
+    knitr,
+    rmarkdown,
+    patchwork,
+    ggplot2,
+    scales,
+    sf,
+    gstat,
+    terra,
+    visNetwork,
+    pandoc

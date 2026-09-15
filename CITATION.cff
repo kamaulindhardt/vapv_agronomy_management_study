@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite it using the metadata below."
+title: "vapv_agronomy_management_study: Study 2 Agronomic Management Pipeline (Value4Farm Vertical Agrivoltaics)"
+type: software
+authors:
+  - family-names: "Lindhardt"
+    given-names: "Magnus Kamau Katana"
+    affiliation: "Department of Agroecology, Aarhus University"
+    orcid: ""
+    email: "kamaulindhardt@gmail.com"
+repository-code: ""
+license: CC0-1.0
+keywords:
+  - agrivoltaics
+  - agroecology
+  - vertical bifacial photovoltaics
+  - nitrate leaching
+  - biogas digestate
+  - crop residue management
+  - Value4Farm
+  - targets
+  - reproducible research
+abstract: >
+  A reproducible `targets` (R) pipeline for Study 2 (agronomic management --
+  fertilisation source and crop residue treatments, and their interaction
+  with position relative to vertical PV panels) of a PhD research programme
+  on vertical agrivoltaics at Aarhus University, Foulum (Value4Farm
+  project). Reads raw and intermediate data from the companion
+  V4F_agrivoltaics repository (github.com/kamaulindhardt/V4F_agrivoltaics),
+  which also holds the Study 1 (microclimate/DAISY modelling) and Study 3
+  (whole-system) analyses. See README.md and docs/ for details.

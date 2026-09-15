@@ -1,0 +1,28 @@
+# R session/session-state files
+.Rproj.user
+.Rhistory
+.RData
+.RDataTmp
+.Ruserdata
+
+# targets pipeline: cache/store is fully regenerable via tar_make(), never tracked
+_targets/
+_targets_r/
+
+# renv: only the lockfile, activate script and settings are tracked
+renv/library/
+renv/local/
+renv/cellar/
+renv/lock/
+renv/python/
+renv/sandbox/
+renv/staging/
+
+# targets pipeline outputs: figures/tables/reports are tracked (small,
+# reviewable); large regenerable intermediate data (model objects, joined
+# analysis-ready datasets) is not
+PIPELINE_OUTPUTS/data/
+
+# Project-local override of the V4F_agrivoltaics data path -- personal to
+# each checkout, never shared
+.Renviron
