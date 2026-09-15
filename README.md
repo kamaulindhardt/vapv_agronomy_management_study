@@ -34,6 +34,7 @@ _targets.R           pipeline definition (stays at the project root -- a
                       `targets` package requirement, the one exception to
                       the numbered layout above)
 renv.lock, renv/, .Rprofile, DESCRIPTION   pinned R environment (renv)
+vapv_agronomy_management_study.Rproj       RStudio project file (see Setup)
 ```
 
 Each of the four numbered folders has its own `README.md` describing its
@@ -42,6 +43,12 @@ provenance of every bundled data file and how to refresh one if corrected
 data arrives upstream.
 
 ## Setup
+
+Open `vapv_agronomy_management_study.Rproj` in RStudio first (double-click it,
+or File > Open Project) -- this sets the working directory to the project
+root and is what the `here::here()` calls throughout `2_preprocessing/*.qmd`
+and `3_analysis/*.qmd` (see below) rely on to find files regardless of which
+document you have open. Then, in the R console:
 
 ```r
 install.packages("renv")
@@ -57,6 +64,16 @@ The rendered summary report lands at `4_outputs/reports/study2_pipeline_summary.
 Inspect the pipeline with `targets::tar_manifest()` (list every target) or
 `targets::tar_visnetwork()` (interactive dependency graph); read any target's
 value directly with `targets::tar_read(<name>)`.
+
+### Running individual steps interactively
+
+Each `2_preprocessing/*.qmd` and `3_analysis/*.qmd` document is a standalone,
+human-readable walkthrough of one domain (field management, yield import, the
+DL nitrate-leaching method, the statistical models, ...) that calls the same
+`R/` functions the pipeline does -- open one in RStudio (with the `.Rproj`
+project active) and either Render the whole document or run its chunks one
+at a time to inspect intermediate objects. See `2_preprocessing/README.md`
+and `3_analysis/README.md` for what each document covers.
 
 ## Relationship to `V4F_agrivoltaics`
 
