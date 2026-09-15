@@ -1,0 +1,43 @@
+strip,crop_name,season_year,start_date,start_type,end_date,end_type,n_records
+A1,Winter Wheat,2024,2024-04-18,first_mention,2024-08-02,harvest,7
+A1,Grass-Clover,2025,2024-08-28,sowing,2026-04-22,last_mention,15
+A1,Spring Barley,2026,2026-04-23,sowing,2026-06-01,last_mention,6
+A1,Ryegrass (undersown),2026,2026-06-01,sowing,2026-06-01,last_mention,1
+A2,Soybean,2024,2024-05-08,sowing,2024-09-11,harvest,19
+A2,Winter Wheat,2025,2024-09-23,sowing,2025-08-12,harvest,14
+A2,Grass-Clover,2026,2025-08-27,sowing,2026-05-28,last_mention,5
+A3,Grass-Clover,2025,2024-05-22,first_mention,2025-04-09,last_mention,19
+A3,Spring Barley,2025,2025-04-10,sowing,2025-06-25,harvest,10
+A3,Ryegrass (undersown),2025,2025-05-26,sowing,2026-04-30,last_mention,1
+A3,Soybean,2026,2026-05-01,sowing,2026-06-11,last_mention,4
+A4,Winter Wheat,2024,2024-04-18,first_mention,2024-08-27,last_mention,5
+A4,Grass-Clover,2025,2024-08-28,sowing,2026-04-22,last_mention,21
+A4,Spring Barley,2026,2026-04-23,sowing,2026-06-01,last_mention,6
+A4,Ryegrass (undersown),2026,2026-06-01,sowing,2026-06-01,last_mention,1
+A5,Grass-Clover,2025,2024-05-22,first_mention,2025-04-09,last_mention,13
+A5,Spring Barley,2025,2025-04-10,sowing,2025-06-25,harvest,7
+A5,Ryegrass (undersown),2025,2025-05-26,sowing,2026-04-30,last_mention,1
+A5,Soybean,2026,2026-05-01,sowing,2026-06-11,last_mention,4
+B1,Grass-Clover,2025,2024-05-22,first_mention,2025-04-09,last_mention,13
+B1,Spring Barley,2025,2025-04-10,sowing,2025-06-25,harvest,14
+B1,Ryegrass (undersown),2026,2025-05-26,sowing,2026-06-01,last_mention,2
+B1,Soybean,2026,2026-05-01,sowing,2026-06-11,last_mention,4
+B2,Winter Wheat,2024,2024-04-18,first_mention,2024-08-02,harvest,7
+B2,Grass-Clover,2025,2024-08-28,sowing,2025-11-06,last_mention,15
+B3,Grass-Clover,2025,2024-05-22,first_mention,2025-04-09,last_mention,13
+B3,Spring Barley,2025,2025-04-10,sowing,2025-06-25,harvest,6
+B3,Ryegrass (undersown),2025,2025-05-26,sowing,2026-04-30,last_mention,1
+B3,Soybean,2026,2026-05-01,sowing,2026-06-11,last_mention,4
+B4,Soybean,2024,2024-05-08,sowing,2024-09-10,harvest,19
+B4,Winter Wheat,2025,2024-09-23,sowing,2025-08-12,harvest,9
+B4,Grass-Clover,2026,2025-08-27,sowing,2026-05-28,last_mention,5
+B5,Winter Wheat,2024,2024-04-18,first_mention,2024-08-02,harvest,7
+B5,Grass-Clover,2025,2024-08-28,sowing,2026-04-22,last_mention,15
+B5,Spring Barley,2026,2026-04-23,sowing,2026-06-01,last_mention,6
+B5,Ryegrass (undersown),2026,2026-06-01,sowing,2026-06-01,last_mention,1
+N19,Winter Wheat,2024,2024-08-02,first_mention,2024-08-02,harvest,3
+N20,Winter Wheat,2024,2024-08-02,first_mention,2024-08-02,harvest,3
+N21,Winter Wheat,2024,2024-08-02,first_mention,2024-08-02,harvest,3
+N22,Winter Wheat,2024,2024-08-02,first_mention,2024-08-02,harvest,3
+N23,Winter Wheat,2024,2024-08-02,first_mention,2024-08-02,harvest,3
+N24,Winter Wheat,2024,2024-08-02,first_mention,2024-08-02,harvest,3

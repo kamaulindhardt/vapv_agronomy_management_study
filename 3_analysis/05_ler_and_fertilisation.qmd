@@ -1,0 +1,115 @@
+---
+title: "05 -- Land Equivalent Ratio & Fertilisation Planning"
+subtitle: "Study 2 analysis -- vertical agrivoltaics, Value4Farm"
+author: "M.K.K. Lindhardt"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: show
+    theme: flatly
+editor: visual
+---
+
+## Purpose
+
+Standalone walkthrough of the apparent Land Equivalent Ratio (a-LER) and the
+fertilisation-planning calculator, calling
+`3_analysis/R/functions_ler.R` and `functions_fertilisation.R` directly.
+The LER plots were retheme'd as part of this pass (validated `ler_colors`
++ `theme_study2()` -- see `3_analysis/R/plot_theme.R`).
+
+```{r setup}
+#| message: false
+#| warning: false
+library(tidyverse)
+library(here)
+library(patchwork)
+library(kableExtra)
+
+source(here("2_preprocessing", "R", "functions_yield_quality.R"))
+source(here("3_analysis", "R", "functions_ler.R"))
+source(here("3_analysis", "R", "functions_fertilisation.R"))
+source(here("3_analysis", "R", "utils.R"))
+source(here("3_analysis", "R", "plot_theme.R"))
+```
+
+## Part A: Apparent Land Equivalent Ratio (a-LER)
+
+::: {.callout-note}
+Flagged in the concept paper as needing reconciliation with the *measured*
+(not reference-assumption) PV electricity output -- this is a starting
+point, not a finished result.
+:::
+
+### Step 1: Load yield and PV reference data
+
+a-LER needs BOTH PV setups (VERTICAL + SOUTH_ORIENTED), so it uses
+`merged_yield_data` before Study 2's VERTICAL-only filter.
+
+```{r load-ler-data}
+#| message: false
+merged_yield_data <- load_merged_yield_data(
+  xlsx_2023 = here("1_input_data", "crop_yield_quality", "2023", "HYPERFARM_YIELD_DATA_2023_v2.xlsx"),
+  xlsx_2024 = here("1_input_data", "crop_yield_quality", "2024", "HYPERFARM_VALUE4FARM_YIELD_DATA_2024_v3.xlsx"),
+  xlsx_2025 = here("1_input_data", "crop_yield_quality", "2025", "VALUE4FARM_YIELD_DATA_2025.xlsx")
+)
+pv_panel_data <- preprocess_pv_data(
+  readxl::read_excel(here("1_input_data", "pv_data", "PV_PANEL_DATA.xlsx"))
+)
+```
+
+### Step 2: Compute a-LER for grain
+
+```{r ler-grain}
+reference_row <- tibble::tibble(
+  PV_SETUP_2 = "REFERENCE", mean_dry_weight = NA_real_,
+  GCR = 0.5, LL_HA = 0, TOTAL_AREA_OCCUPIED_M2 = 1104,
+  ELECTRICITY_KW_M2_YR = 93.47, ELECTRICITY_OUTPUT_MWH_HA_YR = 935
+)
+
+ler_grain_result <- calculate_a_LER(
+  process_yield_data(merged_yield_data, pv_panel_data, "GRAIN", reference_data = reference_row)
+)
+ler_grain_result |> kableExtra::kbl(digits = 2, caption = "a-LER: GRAIN") |>
+  kableExtra::kable_styling(bootstrap_options = c("striped", "condensed"), full_width = FALSE)
+```
+
+Note: `ler_grain_result` above still has the raw `PV_SETUP_2` codes
+(`"VERTICAL_BETWEEN_PV"` etc.) -- the plot functions below apply
+`rename_pv_setup()` internally before mapping colour, so the table and the
+figures intentionally show different label styles for the same rows.
+
+### Step 3: LER figures
+
+```{r ler-figure}
+#| fig-width: 12
+#| fig-height: 5
+plot_combined_a_LER(ler_grain_result, product_type = "Grain")
+```
+
+## Part B: Fertilisation planning calculator
+
+Reference mineral-NPK equivalent for a digestate split-application plan
+(values from `FERTILISATION_CALCULATION.Rmd`'s worked example -- update with
+each new AgroLab digestate batch certificate).
+
+```{r fert-plan}
+fertilisation_plan_example <- calculate_fertilisation_plan(
+  digestate_nh4_conc_kg_per_ton = 1.35,
+  digestate_p_conc_kg_per_ton = 0.56,
+  digestate_k_conc_kg_per_ton = 3.8,
+  split_applications_ton_ha = c(35, 35),
+  extra_n_applied_in_yara_extran_kg_ha = 230
+)
+fertilisation_plan_example$Split_Results |>
+  kableExtra::kbl(digits = 1, caption = "Digestate split applications") |>
+  kableExtra::kable_styling(bootstrap_options = c("striped", "condensed"), full_width = FALSE)
+```
+
+```{r fert-summary}
+fertilisation_plan_example$Fertiliser_Summary |>
+  kableExtra::kbl(digits = 1, caption = "Mineral-NPK equivalent for the current plan") |>
+  kableExtra::kable_styling(bootstrap_options = c("striped", "condensed"), full_width = FALSE)
+```

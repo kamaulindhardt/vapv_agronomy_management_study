@@ -10,7 +10,8 @@
 library(targets)
 library(tarchetypes)
 
-tar_source("R")
+tar_source("2_preprocessing/R")
+tar_source("3_analysis/R")
 
 tar_option_set(
   packages = c(
@@ -23,23 +24,14 @@ tar_option_set(
 )
 
 # ================================================================
-# DATA LOCATION -- this repo holds the Study 2 analysis CODE only.
-# The raw/intermediate DATA and the Daisy model outputs it reads live in
-# the (much larger, separately-versioned) V4F_agrivoltaics repo. By default
-# this looks for that repo as a sibling directory; override by setting the
-# V4F_DATA_ROOT environment variable (e.g. in a project-local .Renviron)
-# if your checkout lives somewhere else.
+# DATA LOCATION -- self-contained. This repo bundles the specific raw/
+# intermediate files the pipeline reads under 1_input_data/ (copied from the
+# upstream V4F_agrivoltaics repo, which remains canonical for new data
+# collection and for Study 1/3 -- see 1_input_data/README.md for provenance
+# and how to refresh a file here).
 # ================================================================
-V4F_DATA_ROOT <- Sys.getenv("V4F_DATA_ROOT", unset = "../V4F_agrivoltaics")
-if (!dir.exists(V4F_DATA_ROOT)) {
-  stop(
-    "Can't find the V4F_agrivoltaics data repo at '", normalizePath(V4F_DATA_ROOT, mustWork = FALSE), "'.\n",
-    "Set the V4F_DATA_ROOT environment variable to its location, e.g. in a ",
-    "project-local .Renviron:\n  V4F_DATA_ROOT=C:/Users/.../V4F_agrivoltaics"
-  )
-}
-data_path  <- function(...) file.path(V4F_DATA_ROOT, "DATA", ...)
-daisy_path <- function(...) file.path(V4F_DATA_ROOT, "FIELD_WATER_BALANCE_DAISY", ...)
+data_path  <- function(...) file.path("1_input_data", ...)
+daisy_path <- function(...) file.path("1_input_data", "daisy_water_balance", ...)
 
 # Static configuration for tar_map() below -- this table must be a plain R
 # object available when _targets.R is sourced (it decides WHICH targets to
@@ -66,54 +58,55 @@ list(
   # ============================================================
 
   tar_target(raw_yield_xlsx_2023,
-             data_path("CROP_YIELD_QUALITY_DATA", "2023", "HYPERFARM_YIELD_DATA_2023_v2.xlsx"),
+             data_path("crop_yield_quality", "2023", "HYPERFARM_YIELD_DATA_2023_v2.xlsx"),
              format = "file"),
   tar_target(raw_yield_xlsx_2024,
-             data_path("CROP_YIELD_QUALITY_DATA", "2024", "HYPERFARM_VALUE4FARM_YIELD_DATA_2024_v3.xlsx"),
+             data_path("crop_yield_quality", "2024", "HYPERFARM_VALUE4FARM_YIELD_DATA_2024_v3.xlsx"),
              format = "file"),
   tar_target(raw_yield_xlsx_2025,
-             data_path("CROP_YIELD_QUALITY_DATA", "2025", "VALUE4FARM_YIELD_DATA_2025.xlsx"),
+             data_path("crop_yield_quality", "2025", "VALUE4FARM_YIELD_DATA_2025.xlsx"),
              format = "file"),
   tar_target(raw_soil_water_xlsx,
-             data_path("SOIL_WATER", "VALUE4FARM_SOIL_WATER_DATA.xlsx"),
+             data_path("soil_water", "VALUE4FARM_SOIL_WATER_DATA.xlsx"),
              format = "file"),
   tar_target(raw_soil_survey_xlsx,
-             data_path("SOIL_SURVEY", "SOIL_SURVEY_DATA_COMBINED.xlsx"),
+             data_path("soil_survey", "SOIL_SURVEY_DATA_COMBINED.xlsx"),
              format = "file"),
   tar_target(raw_disease_xlsx,
-             data_path("CROP_YIELD_QUALITY_DATA", "2025", "WW_sortskimmel_reg_30_07_2025.xlsx"),
+             data_path("disease", "WW_sortskimmel_reg_30_07_2025.xlsx"),
              format = "file"),
   tar_target(raw_pv_panel_xlsx,
-             data_path("PV_DATA", "PV_PANEL_DATA.xlsx"),
+             data_path("pv_data", "PV_PANEL_DATA.xlsx"),
              format = "file"),
 
-  tar_target(raw_daisy_drainage_a2, daisy_path("OUTPUT", "V4F_drainage_A2_1m_daily.rds"), format = "file"),
-  tar_target(raw_daisy_drainage_a3, daisy_path("OUTPUT", "V4F_drainage_A3_1m_daily.rds"), format = "file"),
-  tar_target(raw_daisy_no3_a2, daisy_path("OUTPUT", "V4F_NO3_leaching_A2_1m_daily.rds"), format = "file"),
-  tar_target(raw_daisy_no3_a3, daisy_path("OUTPUT", "V4F_NO3_leaching_A3_1m_daily.rds"), format = "file"),
+  tar_target(raw_daisy_drainage_a2, daisy_path("V4F_drainage_A2_1m_daily.rds"), format = "file"),
+  tar_target(raw_daisy_drainage_a3, daisy_path("V4F_drainage_A3_1m_daily.rds"), format = "file"),
+  tar_target(raw_daisy_no3_a2, daisy_path("V4F_NO3_leaching_A2_1m_daily.rds"), format = "file"),
+  tar_target(raw_daisy_no3_a3, daisy_path("V4F_NO3_leaching_A3_1m_daily.rds"), format = "file"),
 
-  tar_target(mngmt_script_file, data_path("FIELD_MANAGEMENT", "read_foulumngaard_mngmnt.py"), format = "file"),
+  tar_target(mngmt_script_file, data_path("field_management", "read_foulumngaard_mngmnt.py"), format = "file"),
   tar_target(mngmt_xlsx_files,
-             list.files(data_path("FIELD_MANAGEMENT", "COMPLETE_YEAR_MNGMT"),
+             list.files(data_path("field_management"),
                         pattern = "^Handlinger_.*\\.xlsx$", full.names = TRUE),
              format = "file"),
   tar_target(raw_tdr_clean_files,
-             list.files(data_path("TDR_DATA", "CLEAN_TDR_DATA"), pattern = "\\.csv$", full.names = TRUE),
+             list.files(data_path("tdr_data"), pattern = "\\.csv$", full.names = TRUE),
              format = "file"),
 
   # ============================================================
   # STAGE 2: IMPORT / CLEAN
   # ============================================================
 
-  # -- Field management (external python step; see R/functions_management.R).
-  # Reads/writes back into the V4F_agrivoltaics DATA/ tree (that's where the
-  # source Handlinger_*.xlsx files and the crop_calendar.csv/
-  # management_actions.csv outputs belong -- not duplicated into this repo).
+  # -- Field management (external python step; see 2_preprocessing/R/functions_management.R).
+  # Derives crop_calendar.csv/management_actions.csv from the raw
+  # Handlinger_*.xlsx files. Written to 4_outputs/data/ (regenerable derived
+  # data), NEVER back into 1_input_data/ -- a pipeline run must not mutate
+  # its own raw inputs.
   tar_target(mngmt_csv_outputs,
              { mngmt_xlsx_files  # dependency only: forces rerun when Handlinger_*.xlsx change
                run_management_import(mngmt_script_file,
-                                      mngmt_dir = data_path("FIELD_MANAGEMENT", "COMPLETE_YEAR_MNGMT"),
-                                      out_dir   = data_path("FIELD_MANAGEMENT")) },
+                                      mngmt_dir = data_path("field_management"),
+                                      out_dir   = "4_outputs/data/field_management") },
              format = "file"),
   tar_target(crop_calendar, load_crop_calendar(mngmt_csv_outputs[2])),
 
@@ -121,6 +114,22 @@ list(
   tar_target(merged_yield_data,
              load_merged_yield_data(raw_yield_xlsx_2023, raw_yield_xlsx_2024, raw_yield_xlsx_2025)),
   tar_target(study2_yield_analysis_ready, add_study2_covariates(merged_yield_data)),
+
+  # -- Preliminary yield figures (see 3_analysis/R/functions_yield_analysis.R) --
+  tar_target(
+    fig_yield_by_treatment,
+    save_report_figure(plot_yield_by_treatment(study2_yield_analysis_ready),
+                        "yield_dry", "yield_by_crop_fertilisation_residue.png",
+                        width = 10, height = 6),
+    format = "file"
+  ),
+  tar_target(
+    fig_yield_by_location,
+    save_report_figure(plot_yield_by_location(study2_yield_analysis_ready),
+                        "yield_dry", "yield_by_location_crop.png",
+                        width = 9, height = 6),
+    format = "file"
+  ),
 
   # -- Soil water / suction cups --
   tar_target(soil_water_raw, load_soil_water_xlsx(raw_soil_water_xlsx)),
@@ -132,7 +141,7 @@ list(
 
   # -- TDR soil water content --
   tar_target(tdr_clean_combined,
-             { raw_tdr_clean_files; combine_clean_tdr_data(data_path("TDR_DATA", "CLEAN_TDR_DATA")) }),
+             { raw_tdr_clean_files; combine_clean_tdr_data(data_path("tdr_data")) }),
   tar_target(tdr_analysis_ready, derive_tdr_covariates(tdr_clean_combined)),
 
   # -- Winter wheat disease severity --
@@ -145,21 +154,53 @@ list(
   tar_target(soil_kriging_results, { raw_soil_survey_xlsx; krige_soil_covariates(raw_soil_survey_xlsx) }),
 
   # ============================================================
-  # STAGE 4: NO3 LEACHING (DL METHOD) -- see R/functions_no3_leaching.R
+  # STAGE 4: NO3 LEACHING (DL METHOD) -- see 3_analysis/R/functions_no3_leaching.R
   # ============================================================
 
   tar_target(no3_leaching_result,
              { raw_daisy_drainage_a2; raw_daisy_drainage_a3
-               build_no3_leaching_dataset(soil_water_long, daisy_output_dir = daisy_path("OUTPUT")) }),
+               build_no3_leaching_dataset(soil_water_long, daisy_output_dir = daisy_path()) }),
   tar_target(no3_leaching_analysis_ready, no3_leaching_result$total),
   tar_target(daisy_no3_leaching,
-             { raw_daisy_no3_a2; raw_daisy_no3_a3; load_daisy_no3_leaching(daisy_path("OUTPUT")) }),
+             { raw_daisy_no3_a2; raw_daisy_no3_a3; load_daisy_no3_leaching(daisy_path()) }),
   tar_target(no3_dl_vs_daisy_validation,
              validate_dl_vs_daisy(no3_leaching_result$daily, daisy_no3_leaching)),
 
+  # -- Preliminary NO3-leaching figures (see 3_analysis/R/functions_no3_leaching.R) --
+  tar_target(
+    fig_no3_method_comparison,
+    save_report_figure(plot_no3_method_comparison(no3_leaching_analysis_ready),
+                        "no3_leaching", "no3_method_comparison_LI_FC_BC.png",
+                        width = 9, height = 5),
+    format = "file"
+  ),
+  tar_target(
+    fig_no3_total_by_treatment,
+    save_report_figure(plot_no3_total_by_treatment(no3_leaching_analysis_ready),
+                        "no3_leaching", "no3_total_leaching_by_treatment.png",
+                        width = 10, height = 6),
+    format = "file"
+  ),
+  tar_target(
+    fig_no3_cumulative,
+    save_report_figure(plot_no3_cumulative_leaching(no3_leaching_result$daily),
+                        "no3_leaching", "no3_cumulative_leaching_LI.png",
+                        width = 9, height = 5),
+    format = "file"
+  ),
+  tar_target(
+    fig_no3_dl_vs_daisy,
+    save_report_figure(
+      plot_no3_dl_vs_daisy(no3_leaching_result$daily, daisy_no3_leaching, no3_dl_vs_daisy_validation),
+      "no3_leaching", "no3_dl_vs_daisy_validation.png",
+      width = 9, height = 5
+    ),
+    format = "file"
+  ),
+
   # ============================================================
   # STAGE 5: STATISTICAL MODELS -- generic factory mapped over outcomes
-  # (R/functions_statistics.R). Each branch fits, DHARMa-diagnoses,
+  # (3_analysis/R/functions_statistics.R). Each branch fits, DHARMa-diagnoses,
   # car::Anova Type II tests and emmeans-summarises its model in ONE target
   # (run_outcome_model()) and returns only portable results -- see that
   # function's docstring for why the live glmmTMB object never crosses a
@@ -233,8 +274,8 @@ list(
 
   tarchetypes::tar_render(
     report_study2_summary,
-    "reports/study2_pipeline_summary.Rmd",
-    output_dir = "PIPELINE_OUTPUTS/reports"
+    "3_analysis/reports/study2_pipeline_summary.Rmd",
+    output_dir = "4_outputs/reports"
   )
 
   # ============================================================

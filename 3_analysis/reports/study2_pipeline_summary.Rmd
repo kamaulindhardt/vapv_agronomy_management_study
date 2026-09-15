@@ -1,0 +1,142 @@
+---
+title: "Study 2 — Agronomic Management Pipeline Summary"
+subtitle: "Vertical agrivoltaics, Value4Farm — fertilisation x residue treatments"
+author: "M.K.K. Lindhardt"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: flatly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(targets)
+library(gt)
+library(ggplot2)
+
+# save_report_figure() (3_analysis/R/utils.R) returns absolute figure paths
+# so they resolve correctly under tar_render()'s knit root (the project
+# root, needed for tar_load()/tar_read() to find the _targets/ store) even
+# though this .Rmd lives two levels down in 3_analysis/reports/.
+# include_graphics() defaults to relativising absolute paths against the
+# *document's* directory, which re-breaks that -- disable it so the
+# absolute path is embedded as-is.
+options(knitr.graphics.rel_path = FALSE)
+```
+
+This report is rendered automatically by `targets::tar_make()` (`tarchetypes::tar_render()` target `report_study2_summary`) and always reflects the *current* pipeline outputs — never hand-edit its numbers. See `docs/concept_paper_study2_agronomy_management.md` for the full scientific framing (aim, research questions, hypotheses) behind this pipeline.
+
+## 1. Statistical models — overview
+
+One generic model factory (`3_analysis/R/functions_statistics.R`, `fit_glmm_outcome()`) fit across four outcomes, each including the `FERTILISATION x RESIDUE` interaction the source analyses had not previously tested.
+
+```{r model-overview}
+tar_load(model_overview)
+model_overview
+```
+
+## 2. Crop yield (dry matter)
+
+```{r yield-anova}
+tar_load(gt_summary_yield_dry)
+gt_summary_yield_dry
+```
+
+```{r yield-emm}
+tar_load(model_result_yield_dry)
+knitr::kable(model_result_yield_dry$emmeans_df, digits = 2,
+             caption = "Estimated marginal mean dry-matter yield by fertilisation x residue")
+```
+
+```{r yield-fig-treatment, fig.width=10, fig.height=6}
+tar_load(fig_yield_by_treatment)
+knitr::include_graphics(fig_yield_by_treatment)
+```
+
+```{r yield-fig-location, fig.width=9, fig.height=6}
+tar_load(fig_yield_by_location)
+knitr::include_graphics(fig_yield_by_location)
+```
+
+## 3. Crop quality (total N%)
+
+```{r quality-anova}
+tar_load(gt_summary_quality_n)
+gt_summary_quality_n
+```
+
+## 4. NO3-N leaching (Drainage-Linear method)
+
+```{r no3-anova}
+tar_load(gt_summary_no3_leaching)
+gt_summary_no3_leaching
+```
+
+```{r no3-validation}
+tar_load(no3_dl_vs_daisy_validation)
+knitr::kable(no3_dl_vs_daisy_validation, digits = 3,
+             caption = "Field DL leaching vs. Daisy-simulated leaching -- cross-validation by rotation strip (sim = Daisy, obs = field DL)")
+```
+
+```{r no3-fig-treatment, fig.width=10, fig.height=6}
+tar_load(fig_no3_total_by_treatment)
+knitr::include_graphics(fig_no3_total_by_treatment)
+```
+
+```{r no3-fig-method, fig.width=9, fig.height=5}
+tar_load(fig_no3_method_comparison)
+knitr::include_graphics(fig_no3_method_comparison)
+```
+
+```{r no3-fig-cumulative, fig.width=9, fig.height=5}
+tar_load(fig_no3_cumulative)
+knitr::include_graphics(fig_no3_cumulative)
+```
+
+```{r no3-fig-validation, fig.width=9, fig.height=5}
+tar_load(fig_no3_dl_vs_daisy)
+knitr::include_graphics(fig_no3_dl_vs_daisy)
+```
+
+## 5. Soil water content (TDR)
+
+```{r soil-water-anova}
+tar_load(gt_summary_soil_water_vwc)
+gt_summary_soil_water_vwc
+```
+
+## 6. Fertilisation planning (reference example)
+
+```{r fert-example}
+tar_load(fertilisation_plan_example)
+knitr::kable(fertilisation_plan_example$Fertiliser_Summary, digits = 1,
+             caption = "Example mineral-NPK equivalent for the current digestate split-application plan (update with each new lab certificate)")
+```
+
+## 7. Land Equivalent Ratio (a-LER) — work in progress
+
+Uses `merged_yield_data` (both PV setups) rather than the VERTICAL-only Study 2 dataset used above. Flagged in the concept paper as needing recalculation against the fully current dataset.
+
+```{r ler}
+tar_load(ler_grain_result)
+tar_load(ler_clover_result)
+if (is.null(ler_grain_result) && is.null(ler_clover_result)) {
+  cat("a-LER could not be computed -- see the concept paper's TODOs.")
+} else {
+  if (!is.null(ler_grain_result)) knitr::kable(ler_grain_result, digits = 2, caption = "a-LER: GRAIN")
+  if (!is.null(ler_clover_result)) knitr::kable(ler_clover_result, digits = 2, caption = "a-LER: GRASS_CLOVER")
+}
+```
+
+## 8. Disease severity index (winter wheat, 2025)
+
+```{r dsi}
+tar_load(disease_dsi_summary)
+knitr::kable(head(disease_dsi_summary, 15), digits = 1)
+```
+
+## Migration status
+
+Study 1 (microclimate/DAISY) and Study 3 (whole-system) are not yet part of this pipeline — see `README.md` for the full migration-status table.

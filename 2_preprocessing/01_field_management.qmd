@@ -1,0 +1,90 @@
+---
+title: "01 -- Field Management & Crop Calendar"
+subtitle: "Study 2 preprocessing -- vertical agrivoltaics, Value4Farm"
+author: "M.K.K. Lindhardt"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: show
+    theme: flatly
+editor: visual
+---
+
+## Purpose
+
+A standalone, human-readable walkthrough of the same field-management import
+step `_targets.R` runs automatically (`mngmt_csv_outputs` / `crop_calendar`
+targets). It calls the functions defined in
+`2_preprocessing/R/functions_management.R` directly -- nothing here
+reimplements pipeline logic. Open this file in RStudio and run chunks
+individually (or Render the whole document) to inspect the crop calendar
+derivation step by step.
+
+```{r setup}
+#| message: false
+#| warning: false
+library(tidyverse)
+library(here)
+library(gt)
+
+source(here("2_preprocessing", "R", "functions_management.R"))
+source(here("3_analysis", "R", "utils.R"))
+source(here("3_analysis", "R", "plot_theme.R"))
+```
+
+## Step 1: Regenerate the crop calendar from raw management records
+
+`run_management_import()` wraps the python script
+`1_input_data/field_management/read_foulumngaard_mngmnt.py`, which reads every
+`Handlinger_*.xlsx` file and derives two tables: `management_actions.csv`
+(sowing/harvest/spraying/fertilising events) and `crop_calendar.csv` (inferred
+crop occupancy per strip). Both are written to `4_outputs/data/field_management/`
+(regenerable derived data, not raw input) -- if no `python` interpreter with
+`pandas` is found, this falls back to the CSVs already committed there.
+
+```{r regenerate-calendar}
+csv_paths <- run_management_import(
+  script_path = here("1_input_data", "field_management", "read_foulumngaard_mngmnt.py"),
+  mngmt_dir   = here("1_input_data", "field_management"),
+  out_dir     = here("4_outputs", "data", "field_management")
+)
+csv_paths
+```
+
+## Step 2: Load the crop calendar
+
+```{r load-calendar}
+crop_calendar <- load_crop_calendar(csv_paths[2])
+crop_calendar |> glimpse()
+```
+
+```{r calendar-table}
+crop_calendar |>
+  arrange(strip, start_date) |>
+  select(strip, crop_name, season_year, start_date, start_type, end_date, end_type) |>
+  gt::gt() |>
+  gt::tab_header(title = "Full crop occupancy calendar", subtitle = "Derived from Handlinger_YYYY.xlsx management files")
+```
+
+## Step 3: Crop rotation timeline (EDA)
+
+The rotation each field strip follows across seasons -- the original
+`SOIL_WATER.Rmd` had a version of this figure (restricted to strips with
+suction cups), but it was never ported into this pipeline until now. Uses
+`crop_colors` and `theme_study2()` from the validated design system (see
+`3_analysis/R/plot_theme.R`).
+
+```{r rotation-timeline}
+#| fig-width: 10
+#| fig-height: 5
+plot_crop_rotation_timeline(crop_calendar)
+```
+
+## Next step
+
+`03_soil_water_import.qmd` uses this `crop_calendar` to determine which crop
+was occupying each strip during the suction-cup monitoring window
+(`lookup_strip_crop()`), the way `_targets.R`'s `strip_crop_lookup_tbl` target
+does.

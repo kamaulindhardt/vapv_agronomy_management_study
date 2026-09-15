@@ -1,0 +1,252 @@
+source_year,date,strip,crop_code,crop_name,operation_type,operation_detail,source_file
+2024,2024-04-18,A1,Winterwheat,Winter Wheat,Fertilizing,"Winter wheat with digestate slurry treatment, additionally fertilized with 222 kg YARA Extran",Handlinger_2024.xlsx
+2024,2024-04-18,A1,Winterwheat,Winter Wheat,Fertilizing,"Winter wheat with mineral fertiliser treatment, fertilized with 714 kg NPK 21-4-10",Handlinger_2024.xlsx
+2024,2024-05-02,A1,Winterwheat,Winter Wheat,Soil preparation,Tine harrow winterwheat,Handlinger_2024.xlsx
+2024,2024-05-08,A1,Winterwheat,Winter Wheat,Spraying,"Sprayed with 0,3L Starane 333HL + Profimangan 1L",Handlinger_2024.xlsx
+2024,2024-06-11,A1,Winterwheat,Winter Wheat,Spraying,"Sprayed with 0,5L Propulse SE 250 + 0,2L Comet Pro",Handlinger_2024.xlsx
+2024,2024-08-02,A1,Winter Wheat,Winter Wheat,Harvest,"Harvest 1,5m.*10 m. in the middle of each plots + All grain is collected + Straw sample + all material is weighed",Handlinger_2024.xlsx
+2024,2024-08-27,A1,Winter Wheat,Winter Wheat,Soil preparation,"Cultivated two times, Opposite of each other. Good result",Handlinger_2024.xlsx
+2024,2024-08-28,A1,Clovergrass'25,Grass-Clover,Sowing,"Sowing Clovergrass ""Bl.49"" 12cm row distance 35kg/ha",Handlinger_2024.xlsx
+2026,2025-03-18,A1,,,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2026_1.xlsx
+2025,2025-04-11,A1,KG,Grass-Clover,Fertilizing,Manure in Grassclover NPK 21-3-10,Handlinger_2025.xlsx
+2025,2025-05-09,A1,KG,Grass-Clover,Fertilizing,Manure in Grassclover NPK 21-3-10,Handlinger_2025.xlsx
+2025,2025-05-09,A1,KG,Grass-Clover,Fertilizing,Manure in Grassclover Patentkali 25 m. Mg. S. 200kg/ha,Handlinger_2025.xlsx
+2025,2025-06-26,A1,KG,Grass-Clover,Fertilizing,Manure in Grassclover NPK 21-3-10,Handlinger_2025.xlsx
+2025,2025-06-26,A1,KG,Grass-Clover,Fertilizing,Manure in Grassclover Patentkali 25 m. Mg. S. 200kg/ha,Handlinger_2025.xlsx
+2026,2026-04-09,A1,,,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2026_1.xlsx
+2026,2026-04-22,A1,,,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2026_1.xlsx
+2026,2026-04-22,A1,BY,Spring Barley,Fertilizing,Manure in Barley NPK 21-3-10,Handlinger_2026_1.xlsx
+2026,2026-04-23,A1,BY,Spring Barley,Sowing,"Sowing Barley ""sort. Bl."" plot 24cm. Row distance",Handlinger_2026_1.xlsx
+2026,2026-04-27,A1,BY,Spring Barley,Sowing,Roller past after sowing barley,Handlinger_2026_1.xlsx
+2026,2026-05-05,A1,BY,Spring Barley,Soil preparation,"1. first time Weeding + tine harrow  , clockwise direction",Handlinger_2026_1.xlsx
+2026,2026-05-28,A1,BY,Spring Barley,Soil preparation,"2. first time Weeding + tine harrow  , clockwise direction 24cm",Handlinger_2026_1.xlsx
+2026,2026-06-01,A1,BY,Spring Barley,Sowing,"Sowing Rajgræs ""Mathilde"" + 1. first time Weeding + tine harrow",Handlinger_2026_1.xlsx
+2026,2026-06-01,A1,rajgræs,Ryegrass (undersown),Sowing,"Sowing Rajgræs ""Mathilde"" + 1. first time Weeding + tine harrow",Handlinger_2026_1.xlsx
+2024,2024-03-28,A2,Soy,Soybean,Soil preparation,"Harrowed covercrop ""winterrye"" two times in 3 meter. Preparing the false seedbed for soy. This was only done to level the soil after sucking cup installation.",Handlinger_2024.xlsx
+2024,2024-03-28,A2,Soy,Soybean,Soil preparation,"Harrowed covercrop ""winterrye"" two times in 3 meter. Preparing the false seedbed for soy. This was only done to level the soil after sucking cup installation.",Handlinger_2024.xlsx
+2024,2024-04-17,A2,Soy,Soybean,Soil preparation,Cultivated winterrye (covercrop) removed with a deep cultivation,Handlinger_2024.xlsx
+2024,2024-04-18,A2,Manure,,Fertilizing,Slurry and fertilizer must be allocated by agreement with Kamau. Quantities and equipment must be agreed with Kamau and Søren Anton,Handlinger_2024.xlsx
+2024,2024-04-22,A2,Soy,Soybean,Fertilizing,"Soybean with digestate slurry treatment, additionally fertilized with 300 kg Patentkali 25 m. Mg. S.",Handlinger_2024.xlsx
+2024,2024-04-22,A2,Soy,Soybean,Fertilizing,Soybean with mineral fertiliser treatments are fertilized with 95 kg NPK 21-4-10,Handlinger_2024.xlsx
+2024,2024-04-22,A2,Soy,Soybean,Fertilizing,"Soybean with mineral fertiliser treatment, additionally fertilized with 400 kg Patentkali 25 m. Mg. S.",Handlinger_2024.xlsx
+2024,2024-05-08,A2,Soy,Soybean,Sowing,"Sprayed before sowing soy with Round Up Flex XXL 0,6L",Handlinger_2024.xlsx
+2024,2024-05-14,A2,Soy,Soybean,Sowing,Cultived before sowing soya beans,Handlinger_2024.xlsx
+2024,2024-05-14,A2,Soy,Soybean,Sowing,"Sowing soya ""Arnold"" with inoculation in sugar solution",Handlinger_2024.xlsx
+2024,2024-05-17,A2,Soy,Soybean,Soil preparation,Blind harrowed soy before sprouting,Handlinger_2024.xlsx
+2024,2024-06-13,A2,Soy,Soybean,Spraying,"Sprayed with 1,5L Fighter 480 + 0,7L Penol 33E",Handlinger_2024.xlsx
+2024,2024-09-10,A2,Soy,Soybean,Harvest,1 square meter samples are made in soy,Handlinger_2024.xlsx
+2024,2024-09-11,A2,Soy,Soybean,Harvest,The remaining 8m2 is removed and put in sacks. 12 Samples for the removal of pods then chopped and laid out in selected plots as straw,Handlinger_2024.xlsx
+2024,2024-09-23,A2,Winter Wheat'25,Winter Wheat,Sowing,"Sowing wheat ""Sy Revolution""  12cm row distance 214kg/ha",Handlinger_2024.xlsx
+2024,2024-10-15,A2,Winter Wheat'25,Winter Wheat,Spraying,"Sprayed withTopik EC 0,3L",Handlinger_2024.xlsx
+2024,2024-11-12,A2,Winter Wheat'25,Winter Wheat,Spraying,"Sprayed with Profi Mangan NO3 1,0L",Handlinger_2024.xlsx
+2025,2025-04-09,A2,VH,Winter Wheat,Fertilizing,Slurry in Winterwheat between crop,Handlinger_2025.xlsx
+2025,2025-04-10,A2,VH,Winter Wheat,Fertilizing,Slurry in Winterwheat between crop,Handlinger_2025.xlsx
+2025,2025-04-10,A2,VH,Winter Wheat,Fertilizing,Manure in Winterwheat NPK 21-3-10,Handlinger_2025.xlsx
+2025,2025-04-24,A2,VH,Winter Wheat,Spraying,"Sprayed with 0,9l Atlantis + 0,5l Penol + 2l Kvikup + 1l Profi Mangan",Handlinger_2025.xlsx
+2025,2025-05-02,A2,VH,Winter Wheat,Fertilizing,Slurry in Winterwheat between crop,Handlinger_2025.xlsx
+2025,2025-05-21,A2,VH,Winter Wheat,Spraying,"Sprayed with Balaya 0,6L",Handlinger_2025.xlsx
+2025,2025-08-12,A2,Winter Wheat,Winter Wheat,Harvest,"Harvest 1,5m.*10 m. in the middle of each plots + All grain is collected + Straw sample + all material is weighed",Handlinger_2025.xlsx
+2025,2025-08-12,A2,Winter Wheat,Winter Wheat,Harvest,Harvest 3m * 3m straw to ad later in 12 plots.,Handlinger_2025.xlsx
+2025,2025-08-26,A2,Winter Wheat,Winter Wheat,Sowing,"Cultivated two times before sowing, Opposite of each other",Handlinger_2025.xlsx
+2025,2025-08-27,A2,Winter Wheat,Winter Wheat,Sowing,"Sowing Clovergrass ""Bl.49"" 12cm row distance 35kg/ha",Handlinger_2025.xlsx
+2025,2025-08-27,A2,clovergrass,Grass-Clover,Sowing,"Sowing Clovergrass ""Bl.49"" 12cm row distance 35kg/ha",Handlinger_2025.xlsx
+2026,2026-04-22,A2,KG,Grass-Clover,Fertilizing,Manure in Barley NPK 21-3-10,Handlinger_2026_1.xlsx
+2026,2026-05-28,A2,KG,Grass-Clover,Fertilizing,Fertilized with Patentkali 25 m. Mg. S.,Handlinger_2026_1.xlsx
+2024,2024-04-18,A3,Manure,,Fertilizing,Slurry and fertilizer must be allocated by agreement with Kamau. Quantities and equipment must be agreed with Kamau and Søren Anton,Handlinger_2024.xlsx
+2024,2024-05-23,A3,Clovergrass,Grass-Clover,Fertilizing,Slurry to Clovergrass after 1. Mowed,Handlinger_2024.xlsx
+2024,2024-05-26,A3,Clovergrass,Grass-Clover,Fertilizing,Fertilized with Patentkali 25 m. Mg. S. after 1. Mowed,Handlinger_2024.xlsx
+2024,2024-05-26,A3,Clovergrass,Grass-Clover,Fertilizing,Fertilized with 21-4-10 after 1. Mowed,Handlinger_2024.xlsx
+2024,2024-06-04,A3,Clovergrass,Grass-Clover,Fertilizing,Fertilized with Patentkali 25 m. Mg. S. after 1. Mowed Plots with slurry A+C,Handlinger_2024.xlsx
+2024,2024-06-26,A3,Clovergrass,Grass-Clover,Fertilizing,Fertilized with Patentkali 25 m. Mg. S. after 2. Mowed,Handlinger_2024.xlsx
+2024,2024-06-26,A3,Clovergrass,Grass-Clover,Fertilizing,Fertilized with 21-4-10 after 2. Mowed,Handlinger_2024.xlsx
+2024,2024-06-26,A3,Clovergrass,Grass-Clover,Fertilizing,Fertilized with Patentkali 25 m. Mg. S. after 1. Mowed Plots with slurry A+C,Handlinger_2024.xlsx
+2024,2024-06-27,A3,Clovergrass,Grass-Clover,Fertilizing,Slurry to Clovergrass after 2. Mowed,Handlinger_2024.xlsx
+2025,2025-03-18,A3,KG,Grass-Clover,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2025.xlsx
+2026,2025-03-18,A3,,,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2026_1.xlsx
+2025,2025-04-05,A3,KG,Grass-Clover,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2025.xlsx
+2025,2025-04-09,A3,BY,Spring Barley,Fertilizing,Slurry in Barley,Handlinger_2025.xlsx
+2025,2025-04-10,A3,BY,Spring Barley,Fertilizing,Slurry in Barley,Handlinger_2025.xlsx
+2025,2025-04-10,A3,BY,Spring Barley,Fertilizing,Manure in Barley NPK 21-3-10,Handlinger_2025.xlsx
+2025,2025-04-10,A3,BY,Spring Barley,Fertilizing,Manure in Barley Patentkali 25 m. Mg. S.            A=200kg/ha  B=300kg/ha   C=200kg/ha  D=300kg/ha,Handlinger_2025.xlsx
+2025,2025-04-10,A3,BY,Spring Barley,Sowing,"Sowing Barley ""sort. Bl."" plot 24cm. Row distance",Handlinger_2025.xlsx
+2025,2025-04-30,A3,BY,Spring Barley,Spraying,"Sprayed with 5g. Nuance Max 75WG + 0,15L Starane 333HL + 0,2L Contact + 1L Profi Mangan",Handlinger_2025.xlsx
+2025,2025-05-26,A3,BY,Spring Barley,Sowing,"Sowing Rajgræs ""Mathilde"" + 1. first time Weeding + tine harrow",Handlinger_2025.xlsx
+2025,2025-05-26,A3,rajgræs,Ryegrass (undersown),Sowing,"Sowing Rajgræs ""Mathilde"" + 1. first time Weeding + tine harrow",Handlinger_2025.xlsx
+2025,2025-06-25,A3,BY,Spring Barley,Harvest,Harvest barley green 3m only in Value4farm. 500g of sample Unloaded after each plot.,Handlinger_2025.xlsx
+2025,2025-09-03,A3,BY,Spring Barley,Soil preparation,"Chopped and crushed with Machio Flail cutter + Class640, 8 cm stump.",Handlinger_2025.xlsx
+2026,2026-04-09,A3,,,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2026_1.xlsx
+2026,2026-04-22,A3,,,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2026_1.xlsx
+2026,2026-05-01,A3,Soy,Soybean,Sowing,Roller past after sowing soy,Handlinger_2026_1.xlsx
+2026,2026-05-28,A3,Soy,Soybean,Soil preparation,1. first time Weeding + tine harrow  48cm,Handlinger_2026_1.xlsx
+2026,2026-06-08,A3,Soy,Soybean,Soil preparation,2. first time Weeding + tine harrow  48cm,Handlinger_2026_1.xlsx
+2026,2026-06-11,A3,Soy,Soybean,Spraying,"Sprayed with Basagran SG 0,6kg + Penol 33E 0,5L",Handlinger_2026_1.xlsx
+2024,2024-04-18,A4,Winterwheat,Winter Wheat,Fertilizing,"Winter wheat with digestate slurry treatment, additionally fertilized with 222 kg YARA Extran",Handlinger_2024.xlsx
+2024,2024-04-18,A4,Winterwheat,Winter Wheat,Fertilizing,"Winter wheat with mineral fertiliser treatment, fertilized with 714 kg NPK 21-4-10",Handlinger_2024.xlsx
+2024,2024-04-18,A4,Manure,,Fertilizing,Slurry and fertilizer must be allocated by agreement with Kamau. Quantities and equipment must be agreed with Kamau and Søren Anton,Handlinger_2024.xlsx
+2024,2024-04-29,A4,Manure,,Fertilizing,"Winter wheat with digestate slurry treatment, added slurry to wheat second time",Handlinger_2024.xlsx
+2024,2024-05-02,A4,Winterwheat,Winter Wheat,Soil preparation,Tine harrow winterwheat,Handlinger_2024.xlsx
+2024,2024-05-08,A4,Winterwheat,Winter Wheat,Spraying,"Sprayed with 0,3L Starane 333HL + Profimangan 1L",Handlinger_2024.xlsx
+2024,2024-06-11,A4,Winterwheat,Winter Wheat,Spraying,"Sprayed with 0,5L Propulse SE 250 + 0,2L Comet Pro",Handlinger_2024.xlsx
+2024,2024-08-28,A4,Clovergrass'25,Grass-Clover,Sowing,"Sowing Clovergrass ""Bl.49"" 12cm row distance 35kg/ha",Handlinger_2024.xlsx
+2026,2025-03-18,A4,,,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2026_1.xlsx
+2025,2025-04-09,A4,KG,Grass-Clover,Fertilizing,Slurry in Grassclover,Handlinger_2025.xlsx
+2025,2025-04-10,A4,KG,Grass-Clover,Fertilizing,Slurry in Grassclover,Handlinger_2025.xlsx
+2025,2025-04-10,A4,KG,Grass-Clover,Fertilizing,Manure in Grassclover NPK 21-3-10,Handlinger_2025.xlsx
+2025,2025-04-10,A4,KG,Grass-Clover,Fertilizing,Manure in Grassclover Patentkali 25 m. Mg. S.     A=100kg/ha  B=400kg/ha   C=100kg/ha  D=400kg/ha,Handlinger_2025.xlsx
+2025,2025-05-08,A4,KG,Grass-Clover,Fertilizing,Slurry in Grassclover,Handlinger_2025.xlsx
+2025,2025-05-09,A4,KG,Grass-Clover,Fertilizing,Manure in Grassclover Patentkali 25 m. Mg. S.     A=150kg/ha  B=200kg/ha   C=150kg/ha  D=200kg/ha,Handlinger_2025.xlsx
+2025,2025-05-09,A4,KG,Grass-Clover,Fertilizing,Manure in Grassclover NPK 21-3-10,Handlinger_2025.xlsx
+2025,2025-06-23,A4,KG,Grass-Clover,Fertilizing,Slurry in Grassclover after 2. cut in clovergrass,Handlinger_2025.xlsx
+2025,2025-06-26,A4,KG,Grass-Clover,Fertilizing,Manure in Grassclover Patentkali 25 m. Mg. S.     A=150kg/ha  B=200kg/ha   C=150kg/ha  D=200kg/ha,Handlinger_2025.xlsx
+2025,2025-06-26,A4,KG,Grass-Clover,Fertilizing,Manure in Grassclover NPK 21-3-10,Handlinger_2025.xlsx
+2026,2026-04-09,A4,,,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2026_1.xlsx
+2026,2026-04-22,A4,,,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2026_1.xlsx
+2026,2026-04-22,A4,BY,Spring Barley,Fertilizing,Manure in Barley NPK 21-3-10,Handlinger_2026_1.xlsx
+2026,2026-04-23,A4,BY,Spring Barley,Sowing,"Sowing Barley ""sort. Bl."" plot 24cm. Row distance",Handlinger_2026_1.xlsx
+2026,2026-04-27,A4,BY,Spring Barley,Sowing,Roller past after sowing barley,Handlinger_2026_1.xlsx
+2026,2026-05-05,A4,BY,Spring Barley,Soil preparation,"1. first time Weeding + tine harrow  , clockwise direction",Handlinger_2026_1.xlsx
+2026,2026-05-28,A4,BY,Spring Barley,Soil preparation,"2. first time Weeding + tine harrow  , clockwise direction 24cm",Handlinger_2026_1.xlsx
+2026,2026-06-01,A4,BY,Spring Barley,Sowing,"Sowing Rajgræs ""Mathilde"" + 1. first time Weeding + tine harrow",Handlinger_2026_1.xlsx
+2026,2026-06-01,A4,rajgræs,Ryegrass (undersown),Sowing,"Sowing Rajgræs ""Mathilde"" + 1. first time Weeding + tine harrow",Handlinger_2026_1.xlsx
+2024,2024-06-04,A5,Clovergrass,Grass-Clover,Fertilizing,Fertilized with Patentkali 25 m. Mg. S. after 1. Mowed Plots,Handlinger_2024.xlsx
+2024,2024-06-26,A5,Clovergrass,Grass-Clover,Fertilizing,Fertilized with Patentkali 25 m. Mg. S. after 1. Mowed Plots,Handlinger_2024.xlsx
+2025,2025-03-18,A5,KG,Grass-Clover,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2025.xlsx
+2026,2025-03-18,A5,,,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2026_1.xlsx
+2025,2025-04-05,A5,KG,Grass-Clover,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2025.xlsx
+2025,2025-04-10,A5,BY,Spring Barley,Sowing,"Sowing Barley ""sort. Bl."" plot 24cm. Row distance",Handlinger_2025.xlsx
+2025,2025-04-11,A5,BY,Spring Barley,Fertilizing,Manure in Barley NPK 21-3-10,Handlinger_2025.xlsx
+2025,2025-04-30,A5,BY,Spring Barley,Spraying,"Sprayed with 5g. Nuance Max 75WG + 0,15L Starane 333HL + 0,2L Contact + 1L Profi Mangan",Handlinger_2025.xlsx
+2025,2025-05-26,A5,BY,Spring Barley,Sowing,"Sowing Rajgræs ""Mathilde"" + 1. first time Weeding + tine harrow",Handlinger_2025.xlsx
+2025,2025-05-26,A5,rajgræs,Ryegrass (undersown),Sowing,"Sowing Rajgræs ""Mathilde"" + 1. first time Weeding + tine harrow",Handlinger_2025.xlsx
+2025,2025-06-25,A5,BY,Spring Barley,Harvest,Harvest barley green 10m. 500g of sample. all material is weighed,Handlinger_2025.xlsx
+2025,2025-09-03,A5,BY,Spring Barley,Soil preparation,"Chopped and crushed with Machio Flail cutter + Class640, 8 cm stump.",Handlinger_2025.xlsx
+2026,2026-04-09,A5,,,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2026_1.xlsx
+2026,2026-04-22,A5,,,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2026_1.xlsx
+2026,2026-05-01,A5,Soy,Soybean,Sowing,Roller past after sowing soy,Handlinger_2026_1.xlsx
+2026,2026-05-28,A5,Soy,Soybean,Soil preparation,1. first time Weeding + tine harrow  48cm,Handlinger_2026_1.xlsx
+2026,2026-06-08,A5,Soy,Soybean,Soil preparation,2. first time Weeding + tine harrow  48cm,Handlinger_2026_1.xlsx
+2026,2026-06-11,A5,Soy,Soybean,Spraying,"Sprayed with Basagran SG 0,6kg + Penol 33E 0,5L",Handlinger_2026_1.xlsx
+2024,2024-06-04,B1,Clovergrass,Grass-Clover,Fertilizing,Fertilized with Patentkali 25 m. Mg. S. after 1. Mowed Plots,Handlinger_2024.xlsx
+2024,2024-06-26,B1,Clovergrass,Grass-Clover,Fertilizing,Fertilized with Patentkali 25 m. Mg. S. after 1. Mowed Plots,Handlinger_2024.xlsx
+2025,2025-03-18,B1,KG,Grass-Clover,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2025.xlsx
+2026,2025-03-18,B1,,,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2026_1.xlsx
+2025,2025-04-05,B1,KG,Grass-Clover,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2025.xlsx
+2025,2025-04-10,B1,BY,Spring Barley,Sowing,"Sowing Barley ""sort. Bl."" plot 24cm. Row distance",Handlinger_2025.xlsx
+2025,2025-04-11,B1,BY,Spring Barley,Fertilizing,Manure in Barley NPK 21-3-10,Handlinger_2025.xlsx
+2025,2025-04-30,B1,BY,Spring Barley,Spraying,"Sprayed with 5g. Nuance Max 75WG + 0,15L Starane 333HL + 0,2L Contact + 1L Profi Mangan",Handlinger_2025.xlsx
+2025,2025-05-26,B1,BY,Spring Barley,Sowing,"Sowing Rajgræs ""Mathilde"" + 1. first time Weeding + tine harrow",Handlinger_2025.xlsx
+2025,2025-05-26,B1,rajgræs,Ryegrass (undersown),Sowing,"Sowing Rajgræs ""Mathilde"" + 1. first time Weeding + tine harrow",Handlinger_2025.xlsx
+2025,2025-06-25,B1,BY,Spring Barley,Harvest,Harvest barley green 10m. 500g of sample. all material is weighed,Handlinger_2025.xlsx
+2025,2025-09-03,B1,BY,Spring Barley,Soil preparation,"Chopped and crushed with Machio Flail cutter + Class640, 8 cm stump.",Handlinger_2025.xlsx
+2025,2025-09-03,B1,BY,Spring Barley,Soil preparation,"Chopped and crushed with Machio Flail cutter + Class640, 8 cm stump.",Handlinger_2025.xlsx
+2026,2026-04-09,B1,,,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2026_1.xlsx
+2026,2026-04-22,B1,,,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2026_1.xlsx
+2026,2026-04-22,B1,BY,Spring Barley,Fertilizing,Manure in Barley NPK 21-3-10,Handlinger_2026_1.xlsx
+2026,2026-04-23,B1,BY,Spring Barley,Sowing,"Sowing Barley ""sort. Bl."" plot 24cm. Row distance",Handlinger_2026_1.xlsx
+2026,2026-04-27,B1,BY,Spring Barley,Sowing,Roller past after sowing barley,Handlinger_2026_1.xlsx
+2026,2026-05-01,B1,Soy,Soybean,Sowing,Roller past after sowing soy,Handlinger_2026_1.xlsx
+2026,2026-05-05,B1,BY,Spring Barley,Soil preparation,"1. first time Weeding + tine harrow  , clockwise direction",Handlinger_2026_1.xlsx
+2026,2026-05-28,B1,Soy,Soybean,Soil preparation,1. first time Weeding + tine harrow  48cm,Handlinger_2026_1.xlsx
+2026,2026-05-28,B1,BY,Spring Barley,Soil preparation,"2. first time Weeding + tine harrow  , clockwise direction 24cm",Handlinger_2026_1.xlsx
+2026,2026-06-01,B1,BY,Spring Barley,Sowing,"Sowing Rajgræs ""Mathilde"" + 1. first time Weeding + tine harrow",Handlinger_2026_1.xlsx
+2026,2026-06-01,B1,rajgræs,Ryegrass (undersown),Sowing,"Sowing Rajgræs ""Mathilde"" + 1. first time Weeding + tine harrow",Handlinger_2026_1.xlsx
+2026,2026-06-08,B1,Soy,Soybean,Soil preparation,2. first time Weeding + tine harrow  48cm,Handlinger_2026_1.xlsx
+2026,2026-06-11,B1,Soy,Soybean,Spraying,"Sprayed with Basagran SG 0,6kg + Penol 33E 0,5L",Handlinger_2026_1.xlsx
+2024,2024-04-18,B2,Winterwheat,Winter Wheat,Fertilizing,"Winter wheat with digestate slurry treatment, additionally fertilized with 222 kg YARA Extran",Handlinger_2024.xlsx
+2024,2024-04-18,B2,Winterwheat,Winter Wheat,Fertilizing,"Winter wheat with mineral fertiliser treatment, fertilized with 714 kg NPK 21-4-10",Handlinger_2024.xlsx
+2024,2024-05-02,B2,Winterwheat,Winter Wheat,Soil preparation,Tine harrow winterwheat,Handlinger_2024.xlsx
+2024,2024-05-08,B2,Winterwheat,Winter Wheat,Spraying,"Sprayed with 0,3L Starane 333HL + Profimangan 1L",Handlinger_2024.xlsx
+2024,2024-06-11,B2,Winterwheat,Winter Wheat,Spraying,"Sprayed with 0,5L Propulse SE 250 + 0,2L Comet Pro",Handlinger_2024.xlsx
+2024,2024-08-02,B2,Winter Wheat,Winter Wheat,Harvest,"Harvest 1,5m.*10 m. in the middle of each plots + All grain is collected + Straw sample + all material is weighed",Handlinger_2024.xlsx
+2024,2024-08-27,B2,Winter Wheat,Winter Wheat,Soil preparation,"Cultivated two times, Opposite of each other. Good result",Handlinger_2024.xlsx
+2024,2024-08-28,B2,Clovergrass'25,Grass-Clover,Sowing,"Sowing Clovergrass ""Bl.49"" 12cm row distance 35kg/ha",Handlinger_2024.xlsx
+2026,2025-03-18,B2,,,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2026_1.xlsx
+2025,2025-04-11,B2,KG,Grass-Clover,Fertilizing,Manure in Grassclover NPK 21-3-10,Handlinger_2025.xlsx
+2025,2025-05-09,B2,KG,Grass-Clover,Fertilizing,Manure in Grassclover NPK 21-3-10,Handlinger_2025.xlsx
+2025,2025-05-09,B2,KG,Grass-Clover,Fertilizing,Manure in Grassclover Patentkali 25 m. Mg. S. 200kg/ha,Handlinger_2025.xlsx
+2025,2025-06-26,B2,KG,Grass-Clover,Fertilizing,Manure in Grassclover NPK 21-3-10,Handlinger_2025.xlsx
+2025,2025-06-26,B2,KG,Grass-Clover,Fertilizing,Manure in Grassclover Patentkali 25 m. Mg. S. 200kg/ha,Handlinger_2025.xlsx
+2026,2026-04-09,B2,,,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2026_1.xlsx
+2026,2026-04-22,B2,,,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2026_1.xlsx
+2024,2024-06-04,B3,Clovergrass,Grass-Clover,Fertilizing,Fertilized with Patentkali 25 m. Mg. S. after 1. Mowed Plots,Handlinger_2024.xlsx
+2024,2024-06-26,B3,Clovergrass,Grass-Clover,Fertilizing,Fertilized with Patentkali 25 m. Mg. S. after 1. Mowed Plots,Handlinger_2024.xlsx
+2025,2025-03-18,B3,KG,Grass-Clover,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2025.xlsx
+2026,2025-03-18,B3,,,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2026_1.xlsx
+2025,2025-04-05,B3,KG,Grass-Clover,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2025.xlsx
+2025,2025-04-10,B3,BY,Spring Barley,Sowing,"Sowing Barley ""sort. Bl."" plot 24cm. Row distance",Handlinger_2025.xlsx
+2025,2025-04-11,B3,BY,Spring Barley,Fertilizing,Manure in Barley NPK 21-3-10,Handlinger_2025.xlsx
+2025,2025-04-30,B3,BY,Spring Barley,Spraying,"Sprayed with 5g. Nuance Max 75WG + 0,15L Starane 333HL + 0,2L Contact + 1L Profi Mangan",Handlinger_2025.xlsx
+2025,2025-05-26,B3,BY,Spring Barley,Sowing,"Sowing Rajgræs ""Mathilde"" + 1. first time Weeding + tine harrow",Handlinger_2025.xlsx
+2025,2025-05-26,B3,rajgræs,Ryegrass (undersown),Sowing,"Sowing Rajgræs ""Mathilde"" + 1. first time Weeding + tine harrow",Handlinger_2025.xlsx
+2025,2025-06-25,B3,BY,Spring Barley,Harvest,Harvest barley green 10m. 500g of sample. all material is weighed,Handlinger_2025.xlsx
+2026,2026-04-09,B3,,,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2026_1.xlsx
+2026,2026-04-22,B3,,,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2026_1.xlsx
+2026,2026-05-01,B3,Soy,Soybean,Sowing,Roller past after sowing soy,Handlinger_2026_1.xlsx
+2026,2026-05-28,B3,Soy,Soybean,Soil preparation,1. first time Weeding + tine harrow  48cm,Handlinger_2026_1.xlsx
+2026,2026-06-08,B3,Soy,Soybean,Soil preparation,2. first time Weeding + tine harrow  48cm,Handlinger_2026_1.xlsx
+2026,2026-06-11,B3,Soy,Soybean,Spraying,"Sprayed with Basagran SG 0,6kg + Penol 33E 0,5L",Handlinger_2026_1.xlsx
+2024,2024-03-28,B4,Soy,Soybean,Soil preparation,"Harrowed covercrop ""winterrye"" two times in 3 meter. Preparing the false seedbed for soy. This was only done to level the soil after sucking cup installation.",Handlinger_2024.xlsx
+2024,2024-03-28,B4,Soy,Soybean,Soil preparation,"Harrowed covercrop ""winterrye"" two times in 3 meter. Preparing the false seedbed for soy. This was only done to level the soil after sucking cup installation.",Handlinger_2024.xlsx
+2024,2024-04-17,B4,Soy,Soybean,Soil preparation,Cultivated winterrye (covercrop) removed with a deep cultivation,Handlinger_2024.xlsx
+2024,2024-04-22,B4,Soy,Soybean,Fertilizing,"Soybean with digestate slurry treatment, additionally fertilized with 300 kg Patentkali 25 m. Mg. S.",Handlinger_2024.xlsx
+2024,2024-04-22,B4,Soy,Soybean,Fertilizing,Soybean with mineral fertiliser treatments are fertilized with 95 kg NPK 21-4-10,Handlinger_2024.xlsx
+2024,2024-04-22,B4,Soy,Soybean,Fertilizing,"Soybean with mineral fertiliser treatment, additionally fertilized with 400 kg Patentkali 25 m. Mg. S.",Handlinger_2024.xlsx
+2024,2024-05-08,B4,Soy,Soybean,Sowing,"Sprayed before sowing soy with Round Up Flex XXL 0,6L",Handlinger_2024.xlsx
+2024,2024-05-14,B4,Soy,Soybean,Sowing,Cultived before sowing soya beans,Handlinger_2024.xlsx
+2024,2024-05-14,B4,Soy,Soybean,Sowing,"Sowing soya ""Arnold"" with inoculation in sugar solution",Handlinger_2024.xlsx
+2024,2024-05-17,B4,Soy,Soybean,Soil preparation,Blind harrowed soy before sprouting,Handlinger_2024.xlsx
+2024,2024-06-13,B4,Soy,Soybean,Spraying,"Sprayed with 1,5L Fighter 480 + 0,7L Penol 33E",Handlinger_2024.xlsx
+2024,2024-09-10,B4,Soy,Soybean,Harvest,1 square meter samples are made in soy,Handlinger_2024.xlsx
+2024,2024-09-23,B4,Winter Wheat'25,Winter Wheat,Sowing,"Sowing wheat ""Sy Revolution""  12cm row distance 214kg/ha",Handlinger_2024.xlsx
+2024,2024-10-15,B4,Winter Wheat'25,Winter Wheat,Spraying,"Sprayed withTopik EC 0,3L",Handlinger_2024.xlsx
+2024,2024-11-12,B4,Winter Wheat'25,Winter Wheat,Spraying,"Sprayed with Profi Mangan NO3 1,0L",Handlinger_2024.xlsx
+2025,2025-04-11,B4,VH,Winter Wheat,Fertilizing,Manure in Winterwheat NPK 21-3-10,Handlinger_2025.xlsx
+2025,2025-04-24,B4,VH,Winter Wheat,Spraying,"Sprayed with 0,9l Atlantis + 0,5l Penol + 2l Kvikup + 1l Profi Mangan",Handlinger_2025.xlsx
+2025,2025-05-21,B4,VH,Winter Wheat,Spraying,"Sprayed with Balaya 0,6L",Handlinger_2025.xlsx
+2025,2025-08-12,B4,Winter Wheat,Winter Wheat,Harvest,"Harvest 1,5m.* 3m. netto plot + grains + Straw weighed",Handlinger_2025.xlsx
+2025,2025-08-26,B4,Winter Wheat,Winter Wheat,Sowing,"Cultivated two times before sowing, Opposite of each other",Handlinger_2025.xlsx
+2025,2025-08-27,B4,Winter Wheat,Winter Wheat,Sowing,"Sowing Clovergrass ""Bl.49"" 12cm row distance 35kg/ha",Handlinger_2025.xlsx
+2025,2025-08-27,B4,clovergrass,Grass-Clover,Sowing,"Sowing Clovergrass ""Bl.49"" 12cm row distance 35kg/ha",Handlinger_2025.xlsx
+2026,2026-04-22,B4,KG,Grass-Clover,Fertilizing,Manure in Barley NPK 21-3-10,Handlinger_2026_1.xlsx
+2026,2026-05-28,B4,KG,Grass-Clover,Fertilizing,Fertilized with Patentkali 25 m. Mg. S.,Handlinger_2026_1.xlsx
+2024,2024-04-18,B5,Winterwheat,Winter Wheat,Fertilizing,"Winter wheat with digestate slurry treatment, additionally fertilized with 222 kg YARA Extran",Handlinger_2024.xlsx
+2024,2024-04-18,B5,Winterwheat,Winter Wheat,Fertilizing,"Winter wheat with mineral fertiliser treatment, fertilized with 714 kg NPK 21-4-10",Handlinger_2024.xlsx
+2024,2024-05-02,B5,Winterwheat,Winter Wheat,Soil preparation,Tine harrow winterwheat,Handlinger_2024.xlsx
+2024,2024-05-08,B5,Winterwheat,Winter Wheat,Spraying,"Sprayed with 0,3L Starane 333HL + Profimangan 1L",Handlinger_2024.xlsx
+2024,2024-06-11,B5,Winterwheat,Winter Wheat,Spraying,"Sprayed with 0,5L Propulse SE 250 + 0,2L Comet Pro",Handlinger_2024.xlsx
+2024,2024-08-02,B5,Winter Wheat,Winter Wheat,Harvest,"Harvest 1,5m.*10 m. in the middle of each plots + All grain is collected + Straw sample + all material is weighed",Handlinger_2024.xlsx
+2024,2024-08-27,B5,Winter Wheat,Winter Wheat,Soil preparation,"Cultivated two times, Opposite of each other. Good result",Handlinger_2024.xlsx
+2024,2024-08-28,B5,Clovergrass'25,Grass-Clover,Sowing,"Sowing Clovergrass ""Bl.49"" 12cm row distance 35kg/ha",Handlinger_2024.xlsx
+2026,2025-03-18,B5,,,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2026_1.xlsx
+2025,2025-04-11,B5,KG,Grass-Clover,Fertilizing,Manure in Grassclover NPK 21-3-10,Handlinger_2025.xlsx
+2025,2025-05-09,B5,KG,Grass-Clover,Fertilizing,Manure in Grassclover NPK 21-3-10,Handlinger_2025.xlsx
+2025,2025-05-09,B5,KG,Grass-Clover,Fertilizing,Manure in Grassclover Patentkali 25 m. Mg. S. 200kg/ha,Handlinger_2025.xlsx
+2025,2025-06-26,B5,KG,Grass-Clover,Fertilizing,Manure in Grassclover NPK 21-3-10,Handlinger_2025.xlsx
+2025,2025-06-26,B5,KG,Grass-Clover,Fertilizing,Manure in Grassclover Patentkali 25 m. Mg. S. 200kg/ha,Handlinger_2025.xlsx
+2026,2026-04-09,B5,,,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2026_1.xlsx
+2026,2026-04-22,B5,,,Soil preparation,Cultivated stubble and old clovergrass,Handlinger_2026_1.xlsx
+2026,2026-04-22,B5,BY,Spring Barley,Fertilizing,Manure in Barley NPK 21-3-10,Handlinger_2026_1.xlsx
+2026,2026-04-23,B5,BY,Spring Barley,Sowing,"Sowing Barley ""sort. Bl."" plot 24cm. Row distance",Handlinger_2026_1.xlsx
+2026,2026-04-27,B5,BY,Spring Barley,Sowing,Roller past after sowing barley,Handlinger_2026_1.xlsx
+2026,2026-05-05,B5,BY,Spring Barley,Soil preparation,"1. first time Weeding + tine harrow  , clockwise direction",Handlinger_2026_1.xlsx
+2026,2026-05-28,B5,BY,Spring Barley,Soil preparation,"2. first time Weeding + tine harrow  , clockwise direction 24cm",Handlinger_2026_1.xlsx
+2026,2026-06-01,B5,BY,Spring Barley,Sowing,"Sowing Rajgræs ""Mathilde"" + 1. first time Weeding + tine harrow",Handlinger_2026_1.xlsx
+2026,2026-06-01,B5,rajgræs,Ryegrass (undersown),Sowing,"Sowing Rajgræs ""Mathilde"" + 1. first time Weeding + tine harrow",Handlinger_2026_1.xlsx
+2024,2024-08-02,N19,Winter Wheat,Winter Wheat,Harvest,"Harvest 1,5m.* 3m. netto plot + grains + Straw weighed",Handlinger_2024.xlsx
+2024,2024-08-02,N19,Winter Wheat,Winter Wheat,Harvest,Harvest 3m * 3m straw to ad later in 12 plots.,Handlinger_2024.xlsx
+2024,2024-08-27,N19,Winter Wheat,Winter Wheat,Soil preparation,"Cultivated two times, Opposite of each other. Good result",Handlinger_2024.xlsx
+2024,2024-08-02,N20,Winter Wheat,Winter Wheat,Harvest,"Harvest 1,5m.* 3m. netto plot + grains + Straw weighed",Handlinger_2024.xlsx
+2024,2024-08-02,N20,Winter Wheat,Winter Wheat,Harvest,Harvest 3m * 3m straw to ad later in 12 plots.,Handlinger_2024.xlsx
+2024,2024-08-27,N20,Winter Wheat,Winter Wheat,Soil preparation,"Cultivated two times, Opposite of each other. Good result",Handlinger_2024.xlsx
+2024,2024-08-02,N21,Winter Wheat,Winter Wheat,Harvest,"Harvest 1,5m.* 3m. netto plot + grains + Straw weighed",Handlinger_2024.xlsx
+2024,2024-08-02,N21,Winter Wheat,Winter Wheat,Harvest,Harvest 3m * 3m straw to ad later in 12 plots.,Handlinger_2024.xlsx
+2024,2024-08-27,N21,Winter Wheat,Winter Wheat,Soil preparation,"Cultivated two times, Opposite of each other. Good result",Handlinger_2024.xlsx
+2024,2024-08-02,N22,Winter Wheat,Winter Wheat,Harvest,"Harvest 1,5m.* 3m. netto plot + grains + Straw weighed",Handlinger_2024.xlsx
+2024,2024-08-02,N22,Winter Wheat,Winter Wheat,Harvest,Harvest 3m * 3m straw to ad later in 12 plots.,Handlinger_2024.xlsx
+2024,2024-08-27,N22,Winter Wheat,Winter Wheat,Soil preparation,"Cultivated two times, Opposite of each other. Good result",Handlinger_2024.xlsx
+2024,2024-08-02,N23,Winter Wheat,Winter Wheat,Harvest,"Harvest 1,5m.* 3m. netto plot + grains + Straw weighed",Handlinger_2024.xlsx
+2024,2024-08-02,N23,Winter Wheat,Winter Wheat,Harvest,Harvest 3m * 3m straw to ad later in 12 plots.,Handlinger_2024.xlsx
+2024,2024-08-27,N23,Winter Wheat,Winter Wheat,Soil preparation,"Cultivated two times, Opposite of each other. Good result",Handlinger_2024.xlsx
+2024,2024-08-02,N24,Winter Wheat,Winter Wheat,Harvest,"Harvest 1,5m.* 3m. netto plot + grains + Straw weighed",Handlinger_2024.xlsx
+2024,2024-08-02,N24,Winter Wheat,Winter Wheat,Harvest,Harvest 3m * 3m straw to ad later in 12 plots.,Handlinger_2024.xlsx
+2024,2024-08-27,N24,Winter Wheat,Winter Wheat,Soil preparation,"Cultivated two times, Opposite of each other. Good result",Handlinger_2024.xlsx

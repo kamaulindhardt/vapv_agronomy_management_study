@@ -1,0 +1,79 @@
+---
+title: "02 -- Crop Yield & Quality Import"
+subtitle: "Study 2 preprocessing -- vertical agrivoltaics, Value4Farm"
+author: "M.K.K. Lindhardt"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: show
+    theme: flatly
+editor: visual
+---
+
+## Purpose
+
+Standalone walkthrough of `_targets.R`'s `merged_yield_data` ->
+`study2_yield_analysis_ready` steps, calling
+`2_preprocessing/R/functions_yield_quality.R` directly.
+
+```{r setup}
+#| message: false
+#| warning: false
+library(tidyverse)
+library(here)
+
+source(here("2_preprocessing", "R", "functions_yield_quality.R"))
+source(here("3_analysis", "R", "utils.R"))
+source(here("3_analysis", "R", "plot_theme.R"))
+```
+
+## Step 1: Read and merge the three yearly workbooks
+
+```{r merge}
+merged_yield_data <- load_merged_yield_data(
+  xlsx_2023 = here("1_input_data", "crop_yield_quality", "2023", "HYPERFARM_YIELD_DATA_2023_v2.xlsx"),
+  xlsx_2024 = here("1_input_data", "crop_yield_quality", "2024", "HYPERFARM_VALUE4FARM_YIELD_DATA_2024_v3.xlsx"),
+  xlsx_2025 = here("1_input_data", "crop_yield_quality", "2025", "VALUE4FARM_YIELD_DATA_2025.xlsx")
+)
+merged_yield_data |> glimpse()
+```
+
+```{r merge-check}
+merged_yield_data |> count(YEAR, PV_SETUP, PRODUCT)
+```
+
+## Step 2: Derive Study 2 modelling covariates
+
+`add_study2_covariates()` filters to `PV_SETUP == "VERTICAL"` (Study 2's
+scope -- the south-oriented setup belongs to a different comparison) and
+derives `FERTILISATION`, `RESIDUE`, `CROP_PRODUCT`, `GLOBAL_SUB_STRIP_LOCATION`,
+and the `ROW`/`COLUMN` spatial-structure factors used by the statistical model
+factory (`3_analysis/R/functions_statistics.R`).
+
+```{r covariates}
+study2_yield_analysis_ready <- add_study2_covariates(merged_yield_data)
+study2_yield_analysis_ready |> glimpse()
+```
+
+Equivalently, in one call: `build_study2_yield_dataset(xlsx_2023, xlsx_2024, xlsx_2025)`.
+
+## Step 3: Data coverage check (EDA)
+
+Which crop-product x year combinations actually have data, and how many
+observations -- a sanity check before any modelling. New figure, following
+the validated design system (sequential blue = magnitude, per
+Midway (2020) Principle #4).
+
+```{r coverage}
+#| fig-width: 8
+#| fig-height: 6
+plot_yield_data_coverage(study2_yield_analysis_ready)
+```
+
+## Next step
+
+`3_analysis/02_yield_and_quality_models.qmd` fits the GLMM factory to
+`study2_yield_analysis_ready` and shows the preliminary figures + a new
+estimated-marginal-means plot.

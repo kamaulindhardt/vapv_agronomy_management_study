@@ -1,0 +1,79 @@
+---
+title: "04 -- Soil Survey Kriging"
+subtitle: "Study 2 analysis -- vertical agrivoltaics, Value4Farm"
+author: "M.K.K. Lindhardt"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: show
+    theme: flatly
+editor: visual
+---
+
+## Purpose
+
+Standalone walkthrough of the soil-texture kriging that produces Study 2's
+derived spatial covariates, calling `3_analysis/R/functions_soil_survey.R`
+directly. `plot_depth_kriging()`'s colour ramp was fixed as part of this
+pass -- see the function's docstring in `functions_soil_survey.R`.
+
+```{r setup}
+#| message: false
+#| warning: false
+library(tidyverse)
+library(here)
+library(sf)
+library(gstat)
+library(terra)
+
+source(here("3_analysis", "R", "functions_soil_survey.R"))
+source(here("3_analysis", "R", "plot_theme.R"))
+```
+
+## Step 1: Read the combined soil survey workbook
+
+```{r read}
+soil_data <- load_soil_survey_xlsx(
+  here("1_input_data", "soil_survey", "SOIL_SURVEY_DATA_COMBINED.xlsx")
+)
+soil_data |> glimpse()
+```
+
+## Step 2: Convert to an sf point layer and build the interpolation grid
+
+```{r sf-grid}
+soil_sf <- soil_survey_to_sf(soil_data)
+grid_sf <- build_kriging_grid(soil_sf)
+
+cat("Depth bands present:", paste(unique(soil_sf$depth_cm_streamlined), collapse = ", "), "\n")
+cat("Grid cells:", nrow(grid_sf), "\n")
+```
+
+## Step 3: Krige every depth x texture-variable combination
+
+Ordinary kriging with a manually specified spherical variogram per
+combination (see `krige_manual()`'s docstring for the psill/range/nugget
+choices).
+
+```{r krige-all}
+kriging_results <- krige_all_depths_variables(soil_sf, grid_sf)
+names(kriging_results)
+```
+
+Equivalently, in one call: `krige_soil_covariates(soil_survey_xlsx_path)`.
+
+## Step 4: Kriging maps
+
+```{r map-sand-topsoil}
+#| fig-width: 7
+#| fig-height: 6
+plot_depth_kriging(kriging_results, soil_sf, depth_tag = "0-30", variable = "sand")
+```
+
+```{r map-clay-subsoil}
+#| fig-width: 7
+#| fig-height: 6
+plot_depth_kriging(kriging_results, soil_sf, depth_tag = "30-60", variable = "clay")
+```

@@ -1,0 +1,145 @@
+---
+title: "01 -- NO3-N Leaching: Drainage-Linear (DL) Method"
+subtitle: "Study 2 analysis -- vertical agrivoltaics, Value4Farm"
+author: "M.K.K. Lindhardt"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: show
+    theme: flatly
+editor: visual
+---
+
+## Purpose
+
+Standalone, step-by-step walkthrough of the Drainage-Linear (DL) nitrate
+leaching method (Vogeler, Thomas, van der Linden & Bolan, 2020, *J. Environ.
+Qual.* 49(2), 338-347: `N_i [kg N/ha] = C_i [mg NO3-N/L] x D_i [mm] x 0.01`),
+mirroring the original `SOIL_WATER.Rmd` STEP 4 this repo's DL implementation
+was ported from. Calls the functions in
+`3_analysis/R/functions_no3_leaching.R` directly -- nothing here reimplements
+the method. The 4 figures in Step 6 are the pipeline's existing preliminary
+figures, shown as-is (not regenerated with the design system below -- see
+`4_outputs/README.md`).
+
+```{r setup}
+#| message: false
+#| warning: false
+library(tidyverse)
+library(here)
+library(kableExtra)
+
+source(here("2_preprocessing", "R", "functions_soil_water.R"))
+source(here("2_preprocessing", "R", "functions_management.R"))
+source(here("3_analysis", "R", "functions_no3_leaching.R"))
+source(here("3_analysis", "R", "utils.R"))
+source(here("3_analysis", "R", "plot_theme.R"))
+```
+
+## Step 1: Recap -- suction-cup concentration data
+
+Quick recap of `2_preprocessing/03_soil_water_import.qmd` (see that document
+for the detailed EDA); this method needs `soil_water_long`.
+
+```{r recap-soil-water}
+#| message: false
+soil_water_raw    <- load_soil_water_xlsx(here("1_input_data", "soil_water", "VALUE4FARM_SOIL_WATER_DATA.xlsx"))
+soil_water_window <- soil_water_measurement_window(soil_water_raw)
+crop_calendar     <- load_crop_calendar(here("4_outputs", "data", "field_management", "crop_calendar.csv"))
+strip_crop_lookup_tbl <- lookup_strip_crop(crop_calendar, soil_water_window["start"], soil_water_window["end"])
+soil_water_clean  <- clean_soil_water(soil_water_raw, strip_crop_lookup_tbl)
+soil_water_long   <- reshape_soil_water_long(soil_water_clean)
+
+cat("Measurement period:", format(soil_water_window["start"]), "-", format(soil_water_window["end"]), "\n")
+```
+
+## Step 2: Load Daisy drainage output
+
+Daisy v7.1.3 simulated daily drainage at 1 m depth, per rotation strip (A2 =
+WW-SY-WW, A3 = GC-GC-SB) -- consumed here as a read-only model output (see
+`1_input_data/README.md`).
+
+```{r daisy-drainage}
+daisy_drain_all  <- load_daisy_drainage(here("1_input_data", "daisy_water_balance"))
+daisy_drain_cols <- sort(unique(daisy_drain_all$daisy_col))
+daisy_drain_cols
+```
+
+```{r drainage-summary}
+daisy_drain_all |>
+  mutate(year = lubridate::year(date)) |>
+  group_by(`Daisy column` = daisy_col, Year = year) |>
+  summarise(`Drainage (mm/yr)` = round(sum(drainage_mm, na.rm = TRUE), 1), .groups = "drop") |>
+  kableExtra::kbl(caption = "Annual drainage from Daisy at 1 m depth") |>
+  kableExtra::kable_styling(bootstrap_options = c("striped", "condensed"), full_width = FALSE)
+```
+
+## Step 3: Prepare suction-cup data (attach Daisy rotation column)
+
+```{r prepare-sc}
+sc_valid <- prepare_sc_valid(soil_water_long, daisy_drain_cols)
+sc_valid |> glimpse()
+```
+
+## Step 4: Interpolate to daily concentration (LI / FC / BC)
+
+Three interpolation methods per Vogeler et al. (2020): **LI** (linear,
+recommended), **FC** (forward-constant), **BC** (backward-constant).
+
+```{r daily-conc}
+dl_conc_daily <- build_dl_conc_daily(sc_valid)
+dl_conc_daily |> glimpse()
+```
+
+## Step 5: Join drainage and compute daily N leaching
+
+```{r join-drainage}
+dl_leaching_daily <- join_dl_drainage(dl_conc_daily, daisy_drain_all)
+dl_by_period <- aggregate_dl_by_period(dl_leaching_daily, sort(unique(sc_valid$date)))
+dl_total     <- summarise_dl_total(dl_leaching_daily)
+dl_total |> glimpse()
+```
+
+## Step 6: Preliminary figures (existing, unchanged)
+
+```{r fig-method-comparison}
+#| fig-width: 9
+#| fig-height: 5
+plot_no3_method_comparison(dl_total)
+```
+
+```{r fig-total-by-treatment}
+#| fig-width: 10
+#| fig-height: 6
+plot_no3_total_by_treatment(dl_total)
+```
+
+```{r fig-cumulative}
+#| fig-width: 9
+#| fig-height: 5
+plot_no3_cumulative_leaching(dl_leaching_daily)
+```
+
+## Step 7: Cross-validate against Daisy's own simulated leaching
+
+```{r daisy-validation}
+daisy_no3_leaching <- load_daisy_no3_leaching(here("1_input_data", "daisy_water_balance"))
+no3_dl_vs_daisy_validation <- validate_dl_vs_daisy(dl_leaching_daily, daisy_no3_leaching)
+no3_dl_vs_daisy_validation |>
+  kableExtra::kbl(digits = 3, caption = "Field DL leaching vs. Daisy-simulated leaching (sim = Daisy, obs = field DL)") |>
+  kableExtra::kable_styling(bootstrap_options = c("striped", "condensed"), full_width = FALSE)
+```
+
+```{r fig-validation}
+#| fig-width: 9
+#| fig-height: 5
+plot_no3_dl_vs_daisy(dl_leaching_daily, daisy_no3_leaching, no3_dl_vs_daisy_validation)
+```
+
+## Next step
+
+`02_yield_and_quality_models.qmd` fits the generic GLMM factory to this same
+`no3_leaching` outcome (`dl_total`, renamed `no3_leaching_analysis_ready` in
+the pipeline) alongside yield and quality.

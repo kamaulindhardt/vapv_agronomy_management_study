@@ -1,0 +1,96 @@
+---
+title: "03 -- Soil Water (Suction Cup) Import"
+subtitle: "Study 2 preprocessing -- vertical agrivoltaics, Value4Farm"
+author: "M.K.K. Lindhardt"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: show
+    theme: flatly
+editor: visual
+---
+
+## Purpose
+
+Standalone walkthrough of `_targets.R`'s `soil_water_raw` -> `soil_water_long`
+steps, calling `2_preprocessing/R/functions_soil_water.R` and
+`functions_management.R` directly. This is the data the DL nitrate-leaching
+method (`3_analysis/01_no3_leaching_dl_method.qmd`) is built on.
+
+```{r setup}
+#| message: false
+#| warning: false
+library(tidyverse)
+library(here)
+
+source(here("2_preprocessing", "R", "functions_soil_water.R"))
+source(here("2_preprocessing", "R", "functions_management.R"))
+source(here("3_analysis", "R", "utils.R"))
+source(here("3_analysis", "R", "plot_theme.R"))
+```
+
+## Step 1: Read the suction-cup workbook
+
+```{r read}
+soil_water_raw <- load_soil_water_xlsx(
+  here("1_input_data", "soil_water", "VALUE4FARM_SOIL_WATER_DATA.xlsx")
+)
+soil_water_raw |> glimpse()
+```
+
+## Step 2: Detect the measurement window
+
+```{r window}
+soil_water_window <- soil_water_measurement_window(soil_water_raw)
+soil_water_window
+```
+
+## Step 3: Which crop occupied each strip during this window?
+
+Reuses the crop calendar built in `01_field_management.qmd`
+(`4_outputs/data/field_management/crop_calendar.csv`) -- re-run that
+document first if it hasn't been generated yet.
+
+```{r strip-crop-lookup}
+crop_calendar <- load_crop_calendar(
+  here("4_outputs", "data", "field_management", "crop_calendar.csv")
+)
+strip_crop_lookup_tbl <- lookup_strip_crop(
+  crop_calendar, soil_water_window["start"], soil_water_window["end"]
+)
+strip_crop_lookup_tbl
+```
+
+## Step 4: Clean and reshape to long format
+
+```{r clean-reshape}
+soil_water_clean <- clean_soil_water(soil_water_raw, strip_crop_lookup_tbl)
+soil_water_long   <- reshape_soil_water_long(soil_water_clean)
+soil_water_long |> glimpse()
+```
+
+## Step 5: Data completeness (EDA)
+
+Proportion of NA (not reported by the lab) and UD (below detection limit,
+substituted with DL/2) observations, by crop -- the other EDA figure the
+original `SOIL_WATER.Rmd` had but this pipeline never ported until now.
+
+```{r na-ud-crop}
+#| fig-width: 8
+#| fig-height: 5
+plot_na_ud_proportions(soil_water_long, group_var = "crop")
+```
+
+```{r na-ud-plot}
+#| fig-width: 9
+#| fig-height: 5
+plot_na_ud_proportions(soil_water_long, group_var = "plot_no")
+```
+
+## Next step
+
+`3_analysis/01_no3_leaching_dl_method.qmd` combines this `soil_water_long`
+with Daisy drainage output to compute NO3-N leaching via the Drainage-Linear
+method.

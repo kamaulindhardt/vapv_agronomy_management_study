@@ -1,0 +1,58 @@
+---
+title: "05 -- Winter Wheat Disease Severity (DSI)"
+subtitle: "Study 2 preprocessing -- vertical agrivoltaics, Value4Farm"
+author: "M.K.K. Lindhardt"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: show
+    theme: flatly
+editor: visual
+---
+
+## Purpose
+
+Standalone walkthrough of `_targets.R`'s `disease_severity_data` target,
+calling `2_preprocessing/R/functions_disease.R` directly.
+
+```{r setup}
+#| message: false
+#| warning: false
+library(tidyverse)
+library(here)
+library(gt)
+
+source(here("2_preprocessing", "R", "functions_disease.R"))
+source(here("3_analysis", "R", "plot_theme.R"))
+```
+
+## Step 1: Read the septoria scoring register and compute DSI
+
+`load_disease_severity_data()` reads all four septoria scoring sheets
+(A2a/A2b/B4a/B4b -- one per winter-wheat main-strip half) and calls
+`calculate_dsi()` on each, which converts banded severity-percent categories
+to midpoint values and computes a per-plot Disease Severity Index.
+
+```{r load}
+disease_severity_data <- load_disease_severity_data(
+  here("1_input_data", "disease", "WW_sortskimmel_reg_30_07_2025.xlsx")
+)
+disease_severity_data
+```
+
+```{r table}
+disease_severity_data |>
+  gt::gt() |>
+  gt::tab_header(title = "Winter wheat septoria DSI, 2025 season") |>
+  gt::fmt_number(columns = DSI_percent, decimals = 1)
+```
+
+## Step 2: DSI summary figure
+
+```{r dsi-figure}
+#| fig-width: 9
+#| fig-height: 5
+plot_dsi_summary(disease_severity_data)
+```

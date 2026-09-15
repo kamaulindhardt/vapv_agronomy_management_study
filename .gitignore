@@ -18,11 +18,26 @@ renv/python/
 renv/sandbox/
 renv/staging/
 
-# targets pipeline outputs: figures/tables/reports are tracked (small,
-# reviewable); large regenerable intermediate data (model objects, joined
-# analysis-ready datasets) is not
-PIPELINE_OUTPUTS/data/
+# 4_outputs/: figures/tables/reports are tracked (small, reviewable); large
+# regenerable intermediate data (model objects, joined analysis-ready
+# datasets) is not -- EXCEPT the field-management CSVs, committed as a
+# python-free fallback (see run_management_import(),
+# 2_preprocessing/R/functions_management.R)
+4_outputs/data/*
+!4_outputs/data/field_management/
+!4_outputs/data/field_management/*.csv
 
-# Project-local override of the V4F_agrivoltaics data path -- personal to
-# each checkout, never shared
+# Local environment overrides -- personal to each checkout, never shared
 .Renviron
+
+# Quarto render byproducts for the standalone 2_preprocessing/*.qmd and
+# 3_analysis/*.qmd scripts -- regenerate with quarto::quarto_render() or
+# RStudio's Render button; the tracked deliverable is the .qmd source, not
+# a pre-baked copy of it (unlike 4_outputs/reports/, which IS the pipeline's
+# actual output). Each _files/ folder also bundles a full copy of Quarto's
+# HTML framework assets (bootstrap etc.), not just this document's figures.
+2_preprocessing/*.html
+2_preprocessing/*_files/
+3_analysis/*.html
+3_analysis/*_files/
+.quarto/

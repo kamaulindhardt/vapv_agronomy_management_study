@@ -1,0 +1,73 @@
+---
+title: "04 -- TDR Soil Water Content Import"
+subtitle: "Study 2 preprocessing -- vertical agrivoltaics, Value4Farm"
+author: "M.K.K. Lindhardt"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: show
+    theme: flatly
+editor: visual
+---
+
+## Purpose
+
+Standalone walkthrough of `_targets.R`'s `tdr_clean_combined` ->
+`tdr_analysis_ready` steps, calling
+`2_preprocessing/R/functions_tdr.R` directly.
+
+```{r setup}
+#| message: false
+#| warning: false
+library(tidyverse)
+library(here)
+
+source(here("2_preprocessing", "R", "functions_tdr.R"))
+source(here("3_analysis", "R", "utils.R"))
+source(here("3_analysis", "R", "plot_theme.R"))
+```
+
+## Step 1: Combine the manually-reviewed clean TDR files
+
+Each file is one sampling round's readings (one row per probe); there is no
+raw/preprocessing stage bundled in this repo -- see the docstring on
+`preprocess_TDR_data()` in `functions_tdr.R` for why (only the later,
+reviewed `CLEAN_TDR_DATA` stage is bundled under `1_input_data/tdr_data/`).
+
+```{r combine}
+tdr_clean_combined <- combine_clean_tdr_data(here("1_input_data", "tdr_data"))
+tdr_clean_combined |> glimpse()
+```
+
+## Step 2: Derive location/treatment covariates
+
+`derive_tdr_covariates()` attaches `LOCATION` (BETWEEN_PV/OUTSIDE_PV, from
+which sub-strip the probe is in) and `TREATMENT` (fertilisation, from a
+hardcoded field-layout lookup -- TDR nests were not laid out on the same
+grid as the yield trial, so this cannot be derived the same way
+`add_study2_covariates()` does it). `RESIDUE` is not available at the
+TDR-nest level.
+
+```{r covariates}
+tdr_analysis_ready <- derive_tdr_covariates(tdr_clean_combined)
+tdr_analysis_ready |> glimpse()
+```
+
+```{r coverage-check}
+tdr_analysis_ready |> count(LOCATION, TREATMENT, CROP)
+```
+
+## Step 3: Time series preview (EDA)
+
+```{r ts-preview}
+#| fig-width: 9
+#| fig-height: 5
+plot_tdr_time_series(tdr_analysis_ready)
+```
+
+## Next step
+
+`3_analysis/03_soil_water_model.qmd` fits `fit_soil_water_model()` to
+`tdr_analysis_ready`.

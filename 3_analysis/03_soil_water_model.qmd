@@ -1,0 +1,81 @@
+---
+title: "03 -- TDR Soil Water Content Model"
+subtitle: "Study 2 analysis -- vertical agrivoltaics, Value4Farm"
+author: "M.K.K. Lindhardt"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: show
+    theme: flatly
+editor: visual
+---
+
+## Purpose
+
+Standalone walkthrough of `fit_soil_water_model()` -- like NO3-N leaching,
+this outcome had no formal statistical test before this pipeline, only
+descriptive plots. No preliminary figures exist for it, so both figures
+here are new (design system).
+
+```{r setup}
+#| message: false
+#| warning: false
+library(tidyverse)
+library(here)
+library(glmmTMB)
+library(DHARMa)
+library(car)
+library(emmeans)
+
+source(here("2_preprocessing", "R", "functions_tdr.R"))
+source(here("3_analysis", "R", "functions_statistics.R"))
+source(here("3_analysis", "R", "utils.R"))
+source(here("3_analysis", "R", "plot_theme.R"))
+```
+
+## Step 1: Recap -- build the analysis-ready TDR dataset
+
+See `2_preprocessing/04_tdr_import.qmd` for the detailed EDA walkthrough.
+
+```{r recap}
+#| message: false
+tdr_clean_combined  <- combine_clean_tdr_data(here("1_input_data", "tdr_data"))
+tdr_analysis_ready  <- derive_tdr_covariates(tdr_clean_combined)
+```
+
+## Step 2: Fit, diagnose, and test
+
+`fit_soil_water_model()`: `SOIL_WATER_CONTENT ~ LOCATION + TREATMENT + CROP`,
+no spatial structure (LOCATION is itself a per-nest property here -- see the
+function's docstring for why `(1 | SUB_STRIP)` isn't usable), Gamma(link = "log").
+
+```{r fit}
+soil_water_fit <- fit_soil_water_model(tdr_analysis_ready)
+summary(soil_water_fit)
+```
+
+```{r diagnose}
+#| fig-width: 8
+#| fig-height: 4
+sw_diag <- diagnose_glmm(soil_water_fit)
+plot(sw_diag$sim)
+```
+
+```{r anova}
+anova_glmm(soil_water_fit)
+```
+
+## Step 3: Estimated marginal means (new figure)
+
+```{r emm}
+#| fig-width: 7
+#| fig-height: 5
+sw_emm <- emm_soil_water_model(soil_water_fit)
+plot_emmeans_effect(
+  as.data.frame(sw_emm$emmeans),
+  x_var = "LOCATION", colour_var = "TREATMENT",
+  colour_values = fertilisation_colors, y_lab = "Soil water content (%)"
+)
+```

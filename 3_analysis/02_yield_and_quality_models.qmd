@@ -1,0 +1,122 @@
+---
+title: "02 -- Crop Yield & Quality Models"
+subtitle: "Study 2 analysis -- vertical agrivoltaics, Value4Farm"
+author: "M.K.K. Lindhardt"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: show
+    theme: flatly
+editor: visual
+---
+
+## Purpose
+
+Standalone walkthrough of the generic GLMM model factory
+(`3_analysis/R/functions_statistics.R`) applied to the `yield_dry` and
+`quality_n` outcomes, plus the 2 existing preliminary yield figures
+(unchanged) and a new estimated-marginal-means plot per outcome. Calls
+`2_preprocessing/R/functions_yield_quality.R` and
+`3_analysis/R/functions_yield_analysis.R` directly.
+
+```{r setup}
+#| message: false
+#| warning: false
+library(tidyverse)
+library(here)
+library(glmmTMB)
+library(DHARMa)
+library(car)
+library(emmeans)
+
+source(here("2_preprocessing", "R", "functions_yield_quality.R"))
+source(here("3_analysis", "R", "functions_yield_analysis.R"))
+source(here("3_analysis", "R", "functions_statistics.R"))
+source(here("3_analysis", "R", "utils.R"))
+source(here("3_analysis", "R", "plot_theme.R"))
+```
+
+## Step 1: Build the analysis-ready dataset
+
+```{r build-data}
+#| message: false
+study2_yield_analysis_ready <- build_study2_yield_dataset(
+  xlsx_2023 = here("1_input_data", "crop_yield_quality", "2023", "HYPERFARM_YIELD_DATA_2023_v2.xlsx"),
+  xlsx_2024 = here("1_input_data", "crop_yield_quality", "2024", "HYPERFARM_VALUE4FARM_YIELD_DATA_2024_v3.xlsx"),
+  xlsx_2025 = here("1_input_data", "crop_yield_quality", "2025", "VALUE4FARM_YIELD_DATA_2025.xlsx")
+)
+```
+
+## Step 2: Preliminary figures (existing, unchanged)
+
+```{r fig-yield-treatment}
+#| fig-width: 10
+#| fig-height: 6
+plot_yield_by_treatment(study2_yield_analysis_ready)
+```
+
+```{r fig-yield-location}
+#| fig-width: 9
+#| fig-height: 6
+plot_yield_by_location(study2_yield_analysis_ready)
+```
+
+## Step 3: Fit, diagnose, and test the yield model
+
+`fit_yield_dry_model()`: `DRY_WEIGHT_TON_HA ~ GLOBAL_SUB_STRIP_LOCATION +
+FERTILISATION + RESIDUE + CROP_PRODUCT + YEAR + FERTILISATION:RESIDUE`,
+`dispformula = ~ ROW + COLUMN`, Gamma(link = "log").
+
+```{r fit-yield}
+yield_fit <- fit_yield_dry_model(study2_yield_analysis_ready)
+summary(yield_fit)
+```
+
+```{r diagnose-yield}
+#| fig-width: 8
+#| fig-height: 4
+yield_diag <- diagnose_glmm(yield_fit)
+plot(yield_diag$sim)
+```
+
+```{r anova-yield}
+anova_glmm(yield_fit)
+```
+
+## Step 4: Estimated marginal means (new figure)
+
+```{r emm-yield}
+#| fig-width: 7
+#| fig-height: 5
+yield_emm <- emm_yield_dry_model(yield_fit)
+plot_emmeans_effect(
+  as.data.frame(yield_emm$emmeans),
+  x_var = "RESIDUE", colour_var = "FERTILISATION",
+  colour_values = fertilisation_colors, y_lab = "Dry-matter yield (t/ha)"
+)
+```
+
+## Step 5: Quality (total N%) model
+
+Same structure, without `YEAR` (quality data currently exist only for the
+2024 season -- see `fit_quality_model()`'s docstring). No preliminary
+figures exist for this outcome, so the emmeans plot below is its only
+figure.
+
+```{r fit-quality}
+quality_fit <- fit_quality_model(study2_yield_analysis_ready)
+anova_glmm(quality_fit)
+```
+
+```{r emm-quality}
+#| fig-width: 7
+#| fig-height: 5
+quality_emm <- emm_quality_model(quality_fit)
+plot_emmeans_effect(
+  as.data.frame(quality_emm$emmeans),
+  x_var = "RESIDUE", colour_var = "FERTILISATION",
+  colour_values = fertilisation_colors, y_lab = "Total N (%)"
+)
+```
