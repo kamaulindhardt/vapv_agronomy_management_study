@@ -263,7 +263,7 @@ run_outcome_model <- function(data, model_fn, emm_fn, outcome_label) {
 
     list(
       outcome_label = outcome_label,
-      formula = deparse(stats::formula(fit)),
+      formula = paste(deparse(stats::formula(fit)), collapse = " "),
       dispformula = deparse(fit$modelInfo$allForm$dispformula),
       spatial_structure = attr(fit, "spatial_structure"),
       n_obs = stats::nobs(fit),
@@ -397,6 +397,224 @@ plot_emmeans_effect <- function(emmeans_df, x_var, colour_var,
 
   if (!is.null(colour_values)) p <- p + ggplot2::scale_colour_manual(values = colour_values)
   p
+}
+
+# ---- Candidate manuscript models ---------------------------------------------
+# The models above (fit_yield_dry_model, fit_quality_model, fit_no3_model,
+# fit_soil_water_model) are the pipeline's published/reported model objects
+# (model_result_* targets) -- left untouched here per the manuscript figure
+# brief's instruction not to silently overwrite them. The functions below are
+# clearly-named CANDIDATES that add the biologically pre-specified
+# PV_LOCATION:FERTILISATION / PV_LOCATION:RESIDUE interaction terms the
+# manuscript's central question (does agronomic management perform
+# differently under VAPV?) actually requires -- GLOBAL_SUB_STRIP_LOCATION
+# (6 levels: PV zone x WEST/MIDDLE/EAST) is too fine-grained to cross with
+# FERTILISATION x RESIDUE without emptying cells, so these use the coarser
+# 2-level LOCATION/location factor (VAPV vs open field) instead. They are
+# used only by the manuscript figure functions (fig01_*, fig02_*, ...), not
+# wired into the `outcome_specs` tar_map() factory, so they never replace the
+# existing model_result_* targets.
+
+#' Candidate manuscript yield model: same family/dispersion structure as
+#' fit_yield_dry_model(), LOCATION in place of GLOBAL_SUB_STRIP_LOCATION, and
+#' the full pre-specified 2-way interaction set
+#' LOCATION:FERTILISATION + LOCATION:RESIDUE + FERTILISATION:RESIDUE. The
+#' 3-way LOCATION:FERTILISATION:RESIDUE term is deliberately NOT included by
+#' default (see fit_yield_dry_model_manuscript_3way()) -- fit that only after
+#' checking cell counts/rank-deficiency for the crop(s) of interest.
+fit_yield_dry_model_manuscript <- function(data) {
+  fit_glmm_outcome(
+    data, outcome = "DRY_WEIGHT_TON_HA",
+    fixed_effects = c("LOCATION", "FERTILISATION", "RESIDUE", "CROP_PRODUCT", "YEAR"),
+    interactions = c("LOCATION:FERTILISATION", "LOCATION:RESIDUE", "FERTILISATION:RESIDUE"),
+    spatial_structure = "row_col_disp",
+    family = Gamma(link = "log")
+  )
+}
+
+#' 3-way extension of fit_yield_dry_model_manuscript() -- only fit this and
+#' inspect car::Anova()/rank-deficiency warnings before using it for a
+#' figure; do not assume it converges for every crop subset.
+fit_yield_dry_model_manuscript_3way <- function(data) {
+  fit_glmm_outcome(
+    data, outcome = "DRY_WEIGHT_TON_HA",
+    fixed_effects = c("LOCATION", "FERTILISATION", "RESIDUE", "CROP_PRODUCT", "YEAR"),
+    interactions = c("LOCATION:FERTILISATION", "LOCATION:RESIDUE", "FERTILISATION:RESIDUE",
+                      "LOCATION:FERTILISATION:RESIDUE"),
+    spatial_structure = "row_col_disp",
+    family = Gamma(link = "log")
+  )
+}
+
+#' Figure 1 candidate models -- crop productivity/quality response to VAPV
+#' ONLY (no FERTILISATION/RESIDUE at all; those move to a separate
+#' management-effects figure per the researcher's explicit request). Each
+#' outcome gets two variants: "substrip" (the 6-level GLOBAL_SUB_STRIP_LOCATION,
+#' i.e. does the effect vary WEST/MIDDLE/EAST within each PV zone) and
+#' "pooled" (the 2-level LOCATION, VAPV vs open field only) -- fit as two
+#' separate models rather than one and marginalised, so each is a clean,
+#' directly-interpretable model in its own right. Both include a
+#' location:CROP interaction (crop-specific VAPV/substrip response), fit on
+#' PRIMARY-PRODUCT rows only (PRODUCT_SIMPLE %in% c("GRAIN","BIOMASS") --
+#' the crop's actual harvestable yield component: WW/SY grain, GC/RG/SB
+#' biomass; excludes straw/pod/residue by-products, which belong in the
+#' Figure 5 N-use/export analysis, not a productivity figure).
+fit_yield_substrip_model <- function(data) {
+  fit_glmm_outcome(
+    data, outcome = "DRY_WEIGHT_TON_HA",
+    fixed_effects = c("GLOBAL_SUB_STRIP_LOCATION", "CROP", "YEAR"),
+    interactions = "GLOBAL_SUB_STRIP_LOCATION:CROP",
+    spatial_structure = "row_col_disp",
+    family = Gamma(link = "log")
+  )
+}
+
+fit_yield_pooled_model <- function(data) {
+  fit_glmm_outcome(
+    data, outcome = "DRY_WEIGHT_TON_HA",
+    fixed_effects = c("LOCATION", "CROP", "YEAR"),
+    interactions = "LOCATION:CROP",
+    spatial_structure = "row_col_disp",
+    family = Gamma(link = "log")
+  )
+}
+
+#' Quality (N_TOTAL, %) counterparts. No YEAR (N_TOTAL exists for 2024 only
+#' -- see fit_quality_model()'s docstring); coverage is further limited to
+#' WW/SY/GC (RG and SB have zero N_TOTAL observations on their primary
+#' product -- confirmed empirically), so these models' CROP factor will
+#' have only those levels once NA rows are dropped. `spatial_structure =
+#' "none"` (not "row_col_disp") for BOTH: N_TOTAL's 204 rows are too sparse
+#' for a ROW+COLUMN dispersion submodel on top of the fixed effects here --
+#' confirmed empirically (row_col_disp gave a non-positive-definite Hessian
+#' for the substrip variant). The GLOBAL_SUB_STRIP_LOCATION:CROP interaction
+#' (6 x 3 = 18 cells over 204 rows) is dropped from the substrip model for
+#' the same reason -- confirmed non-convergent when included; main effects
+#' only. The pooled model's coarser 2 x 3 = 6-cell interaction DOES converge
+#' and is kept.
+fit_quality_substrip_model <- function(data) {
+  fit_glmm_outcome(
+    data, outcome = "N_TOTAL",
+    fixed_effects = c("GLOBAL_SUB_STRIP_LOCATION", "CROP"),
+    spatial_structure = "none",
+    family = stats::gaussian()
+  )
+}
+
+fit_quality_pooled_model <- function(data) {
+  fit_glmm_outcome(
+    data, outcome = "N_TOTAL",
+    fixed_effects = c("LOCATION", "CROP"),
+    interactions = "LOCATION:CROP",
+    spatial_structure = "none",
+    family = stats::gaussian()
+  )
+}
+
+#' Figure 1 panels E/F candidate model -- crop-specific management effects
+#' (fertiliser source, residue management) on yield, and whether VAPV
+#' modifies the pooled (across-crop) management response. Deliberately
+#' parsimonious: FERTILISATION:CROP and RESIDUE:CROP give per-crop
+#' management effects (panel E); LOCATION:FERTILISATION and LOCATION:RESIDUE
+#' give the POOLED (not per-crop) VAPV x management interaction (panel F).
+#' A full LOCATION:FERTILISATION:CROP / LOCATION:RESIDUE:CROP three-way (a
+#' per-crop version of panel F) was deliberately NOT fit: with 2 (location)
+#' x 2 (fertiliser or residue) x 5 (crop) = 20 cells over the same ~444-row
+#' primary-product dataset used elsewhere in Figure 1, several crops (SY:
+#' 24 rows, SB: 30 rows) would average under 2 rows per cell -- reporting a
+#' pooled interaction here rather than a per-crop one that would not be
+#' reliably estimable.
+fit_yield_management_model <- function(data) {
+  fit_glmm_outcome(
+    data, outcome = "DRY_WEIGHT_TON_HA",
+    fixed_effects = c("LOCATION", "FERTILISATION", "RESIDUE", "CROP", "YEAR"),
+    interactions = c("FERTILISATION:CROP", "RESIDUE:CROP", "LOCATION:FERTILISATION", "LOCATION:RESIDUE"),
+    spatial_structure = "row_col_disp",
+    family = Gamma(link = "log")
+  )
+}
+
+#' Candidate manuscript NO3 leaching model: adds location:fertilisation and
+#' location:residue to fit_no3_model()'s existing fertilisation:residue term.
+#' Same "no random effect" justification as fit_no3_model() applies (only 2
+#' field strips, `crop` fixed effect already absorbs the strip grouping) --
+#' see fit_no3_model()'s docstring. With only 2 strips x 2 fertilisation x 2
+#' residue x 2 location cells, the 3-way interaction is not attempted (8
+#' cells minimum, likely several empty/singleton) -- flagged as
+#' NOT_ESTIMABLE rather than fit and silently unstable.
+fit_no3_model_manuscript <- function(data) {
+  fit_glmm_outcome(
+    data, outcome = "N_LI_kgNha",
+    fixed_effects = c("location", "fertilisation", "residue", "crop"),
+    interactions = c("location:fertilisation", "location:residue", "fertilisation:residue"),
+    spatial_structure = "none",
+    family = Gamma(link = "log")
+  )
+}
+
+#' Candidate manuscript soil-organic-carbon model, fit on the IUNG lab
+#' soil-chemistry dataset (2_preprocessing/R/functions_soil_chemistry.R).
+#' SURVEY_ROUND (2024_baseline / 2025_T1 / 2025_T2) stands in for a repeated-
+#' measures time factor, but see build_iung_soil_dataset()'s docstring: these
+#' are DIFFERENT physical sampling points at each round, not the same point
+#' resampled, so LOCATION:SURVEY_ROUND tests whether the VAPV-vs-open-field
+#' SOC difference is consistent ACROSS survey rounds, not a true paired
+#' change (Delta SOC) at any one location. FERTILISATION is deliberately
+#' excluded: only 40/114 rows have it resolved (via the TDR nest+plot
+#' lookup; see build_iung_soil_dataset()), too sparse and too confounded
+#' with SURVEY_ROUND (all resolved rows are 2025 T1/T2) to add as a fixed
+#' effect without confounding the round comparison. RESIDUE is never
+#' resolvable at this sampling grain (same limitation as the TDR outcome)
+#' and is not in the data at all. No random effect / spatial term: nest is
+#' fully crossed with LOCATION x SUB_STRIP_LOCATION already (a nest's
+#' physical position defines LOCATION/SUB_STRIP_LOCATION), so `(1 | nest)`
+#' would alias against those fixed effects the same way SUB_STRIP aliased
+#' against LOCATION in the TDR model.
+fit_soc_model_manuscript <- function(data) {
+  fit_glmm_outcome(
+    data, outcome = "SOC_PCT",
+    fixed_effects = c("LOCATION", "SUB_STRIP_LOCATION", "SURVEY_ROUND"),
+    interactions = "LOCATION:SURVEY_ROUND",
+    spatial_structure = "none",
+    family = stats::gaussian()
+  )
+}
+
+#' Figure 2 panel C candidate model -- cumulative NO3-N leaching (DL-LI) by
+#' the 6-level GLOBAL_SUB_STRIP_LOCATION (PV zone x west/centre/east), the
+#' substrip-specific counterpart to fit_no3_model()'s 2-level `location`.
+#' `crop` fixed effect (not `fertilisation`/`residue`) matches fit_no3_model()'s
+#' precedent exactly: with only 2 monitored strips (A2 = winter wheat, A3 =
+#' ryegrass), crop already captures the rotation/strip grouping, and 47 cups
+#' split across 6 substrip cells (~7-8/cell) does not support adding
+#' fertiliser/residue on top without emptying cells. No dispersion/spatial
+#' term: no ROW/COLUMN grid exists for suction-cup locations (same
+#' precedent as fit_no3_model()).
+fit_no3_substrip_model <- function(data) {
+  fit_glmm_outcome(
+    data, outcome = "N_LI_kgNha",
+    fixed_effects = c("GLOBAL_SUB_STRIP_LOCATION", "crop"),
+    spatial_structure = "none",
+    family = Gamma(link = "log")
+  )
+}
+
+#' Figure 2 panel D candidate model -- cumulative NO3-N leaching by crop
+#' (rotation/strip) x fertiliser x residue, INCLUDING the full 3-way
+#' interaction. Confirmed empirically to converge despite only 47 total
+#' observations (crop x fertilisation x residue cells are close to balanced:
+#' 5-6 cups/cell, verified directly) -- fit and used as-is rather than
+#' dropped pre-emptively, but treat per-cell estimates as based on small
+#' samples (reflected in wide CIs, not a defect of the model).
+fit_no3_management_model <- function(data) {
+  fit_glmm_outcome(
+    data, outcome = "N_LI_kgNha",
+    fixed_effects = c("crop", "fertilisation", "residue"),
+    interactions = c("crop:fertilisation", "crop:residue", "fertilisation:residue",
+                      "crop:fertilisation:residue"),
+    spatial_structure = "none",
+    family = Gamma(link = "log")
+  )
 }
 
 #' Lightweight, non-factorial comparison helper: one-sample t-test of a

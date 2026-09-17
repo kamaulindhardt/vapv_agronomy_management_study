@@ -17,7 +17,7 @@ corresponding path below — there is no automatic sync.
 | `crop_yield_quality/` | `DATA/CROP_YIELD_QUALITY_DATA/<year>/` | Yearly yield & quality workbooks (2023-2025), sheet `ALL_CROPS_COMBINED` |
 | `disease/` | `DATA/CROP_YIELD_QUALITY_DATA/2025/` | Winter wheat disease severity register (2025) |
 | `soil_water/` | `DATA/SOIL_WATER/` | Suction-cup NO3-N concentration workbook, 1 m depth |
-| `soil_survey/` | `DATA/SOIL_SURVEY/` | Combined soil texture/survey workbook |
+| `soil_survey/` | `DATA/SOIL_SURVEY/` | Combined soil texture/survey workbook (`SOIL_SURVEY_DATA_COMBINED.xlsx`, single baseline survey, no repeat structure) + IUNG lab soil-chemistry results (`RESULTS_SOIL_ANALYSIS_IUNG.xlsx`, copied 2026-09-16 — 133 samples across 2 survey rounds, 2024 term 0 and 2025 terms 1/2; pH, C org. %, N %, available P/K/Mg, trace metals; see 2_preprocessing/README.md for caveats on using `term`/`year` as a repeated-measures factor) |
 | `pv_data/` | `DATA/PV_DATA/` | PV panel configuration reference data |
 | `field_management/` | `DATA/FIELD_MANAGEMENT/COMPLETE_YEAR_MNGMT/` + the import script | Field management records (`Handlinger_*.xlsx`) and `read_foulumngaard_mngmnt.py`, which derives `crop_calendar.csv`/`management_actions.csv` into `4_outputs/data/field_management/` at pipeline run time (those two CSVs are themselves derived, not raw, so they don't live here) |
 | `tdr_data/` | `DATA/TDR_DATA/CLEAN_TDR_DATA/` | Cleaned TDR soil-water-content readings, one CSV per sampling round |

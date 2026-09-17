@@ -14,26 +14,28 @@ editor: visual
 
 ## Purpose
 
-Standalone walkthrough of the generic GLMM model factory
-(`3_analysis/R/functions_statistics.R`) applied to the `yield_dry` and
-`quality_n` outcomes, plus the 2 existing preliminary yield figures
-(unchanged) and a new estimated-marginal-means plot per outcome. Calls
-`2_preprocessing/R/functions_yield_quality.R` and
-`3_analysis/R/functions_yield_analysis.R` directly.
+Standalone walkthrough of the generic GLMM model factory (`3_analysis/R/functions_statistics.R`) applied to the `yield_dry` and `quality_n` outcomes, plus the 2 existing preliminary yield figures (unchanged) and a new estimated-marginal-means plot per outcome. Calls `2_preprocessing/R/functions_yield_quality.R` and `3_analysis/R/functions_yield_analysis.R` directly.
+
+It also reproduces the manuscript's **Figure 1** (`4_outputs/main_figures/Fig01_crop_productivity.{pdf,png}`) from scratch (Step 6) -- running this document end to end regenerates that figure exactly as `targets::tar_make(c("fig01_result", "fig01_file", "fig01_caption_file"))` does, since both call the same `assemble_fig01()` / `save_manuscript_figure()` functions. Re-run Step 6 alone (or the whole document) any time the underlying data, model, or plotting code changes.
 
 ```{r setup}
 #| message: false
 #| warning: false
 library(tidyverse)
 library(here)
+library(kableExtra)
+library(gt)
 library(glmmTMB)
 library(DHARMa)
 library(car)
 library(emmeans)
+library(patchwork)
 
 source(here("2_preprocessing", "R", "functions_yield_quality.R"))
 source(here("3_analysis", "R", "functions_yield_analysis.R"))
 source(here("3_analysis", "R", "functions_statistics.R"))
+source(here("3_analysis", "R", "functions_manuscript_figures.R"))
+source(here("3_analysis", "R", "fig01_crop_productivity.R"))
 source(here("3_analysis", "R", "utils.R"))
 source(here("3_analysis", "R", "plot_theme.R"))
 ```
@@ -65,9 +67,7 @@ plot_yield_by_location(study2_yield_analysis_ready)
 
 ## Step 3: Fit, diagnose, and test the yield model
 
-`fit_yield_dry_model()`: `DRY_WEIGHT_TON_HA ~ GLOBAL_SUB_STRIP_LOCATION +
-FERTILISATION + RESIDUE + CROP_PRODUCT + YEAR + FERTILISATION:RESIDUE`,
-`dispformula = ~ ROW + COLUMN`, Gamma(link = "log").
+`fit_yield_dry_model()`: `DRY_WEIGHT_TON_HA ~ GLOBAL_SUB_STRIP_LOCATION + FERTILISATION + RESIDUE + CROP_PRODUCT + YEAR + FERTILISATION:RESIDUE`, `dispformula = ~ ROW + COLUMN`, Gamma(link = "log").
 
 ```{r fit-yield}
 yield_fit <- fit_yield_dry_model(study2_yield_analysis_ready)
@@ -100,10 +100,7 @@ plot_emmeans_effect(
 
 ## Step 5: Quality (total N%) model
 
-Same structure, without `YEAR` (quality data currently exist only for the
-2024 season -- see `fit_quality_model()`'s docstring). No preliminary
-figures exist for this outcome, so the emmeans plot below is its only
-figure.
+Same structure, without `YEAR` (quality data currently exist only for the 2024 season -- see `fit_quality_model()`'s docstring). No preliminary figures exist for this outcome, so the emmeans plot below is its only figure.
 
 ```{r fit-quality}
 quality_fit <- fit_quality_model(study2_yield_analysis_ready)
@@ -119,4 +116,124 @@ plot_emmeans_effect(
   x_var = "RESIDUE", colour_var = "FERTILISATION",
   colour_values = fertilisation_colors, y_lab = "Total N (%)"
 )
+```
+
+## Step 6: Manuscript Figure 1 -- crop productivity, quality & management response under VAPV
+
+This is the manuscript-ready figure (`3_analysis/R/fig01_crop_productivity.R`), distinct from Steps 3-5 above. It fits 5 dedicated candidate models (`fit_yield_substrip_model`, `fit_yield_pooled_model`, `fit_quality_substrip_model`, `fit_quality_pooled_model`, `fit_yield_management_model`; see `functions_statistics.R`) and renders a 6-panel composite coloured by crop:
+
+- **A/B**: yield by row position (EMMs) / overall VAPV effect on yield (% response forest)
+- **C/D**: as A/B for tissue N (%)
+- **E**: agronomic management effects on yield (fertiliser, residue), per crop
+- **F**: VAPV x management interaction on yield (pooled across crop) -- does VAPV itself change the management response?
+
+### Step 6a: fit the 5 candidate models and build each subfigure
+
+`fig01_build_panels()` fits every candidate model and builds each of the 6 panels as a standalone ggplot object -- shown individually below before compositing, rather than only ever appearing pre-assembled.
+
+```{r fig01-build-panels}
+#| message: false
+#| warning: false
+fig01_panels <- fig01_build_panels(study2_yield_analysis_ready)
+```
+
+```{r fig01-model-summary}
+tibble::tibble(
+  model = c("yield_substrip", "yield_pooled", "quality_substrip", "quality_pooled", "yield_management"),
+  formula = purrr::map_chr(fig01_panels$fits, ~ paste(deparse(stats::formula(.x)), collapse = " ")),
+  n_obs = purrr::map_int(fig01_panels$fits, stats::nobs),
+  converged = purrr::map_lgl(fig01_panels$fits, ~ isTRUE(.x$sdr$pdHess))
+)
+```
+
+**Panel A -- yield by row position:**
+
+```{r fig01-panel-a}
+#| fig-width: 7
+#| fig-height: 4.5
+fig01_panels$panel_a
+```
+
+**Panel B -- overall VAPV effect on yield:**
+
+```{r fig01-panel-b}
+#| fig-width: 6
+#| fig-height: 4
+fig01_panels$panel_b
+```
+
+**Panel C -- tissue N by row position:**
+
+```{r fig01-panel-c}
+#| fig-width: 7
+#| fig-height: 4.5
+fig01_panels$panel_c
+```
+
+**Panel D -- overall VAPV effect on tissue N:**
+
+```{r fig01-panel-d}
+#| fig-width: 6
+#| fig-height: 4
+fig01_panels$panel_d
+```
+
+**Panel E -- agronomic management effects on yield (per crop):**
+
+```{r fig01-panel-e}
+#| fig-width: 7
+#| fig-height: 4.5
+fig01_panels$panel_e
+```
+
+**Panel F -- VAPV x management interaction on yield (pooled across crop):**
+
+```{r fig01-panel-f}
+#| fig-width: 6
+#| fig-height: 4
+fig01_panels$panel_f
+```
+
+### Step 6b: assemble the composite
+
+`fig01_assemble_composite()` takes the 6 already-built panels above and lays them out into the final manuscript figure (shared legend, tags, spacing) -- this is the SAME function `_targets.R`'s `fig01_result` target calls internally, so this composite is identical to the one `tar_make()` produces.
+
+```{r fig01-composite}
+#| fig-width: 8.0
+#| fig-height: 9.2
+fig01_composite <- fig01_assemble_composite(fig01_panels)
+fig01_composite
+```
+
+Save to `4_outputs/main_figures/` -- the same call `_targets.R`'s `fig01_file`/`fig01_caption_file` targets make, so this reproduces those files exactly:
+
+```{r fig01-save}
+#| message: false
+save_manuscript_figure(fig01_composite, "Fig01_crop_productivity",
+                        subdir = "main_figures", width = 8.0, height = 9.2)
+save_figure_caption(fig01_caption(), "Fig01_crop_productivity", subdir = "main_figures")
+```
+
+### Step 6c: omnibus statistical test table
+
+Figures show effect sizes and 95% CIs; this table is the formal-test counterpart (Type II Wald chi-square tests). Built from the SAME 5 model objects `fig01_panels$fits` already fitted in Step 6a -- `anova_glmm()` (`car::Anova()`) is a Wald test on an already-fitted model, not a refit, so nothing here re-runs the (comparatively expensive) `glmmTMB()` calls a second time.
+
+```{r fig01-omnibus-table}
+fig01_result_for_table <- list(
+  yield_substrip    = list(anova = as.data.frame(anova_glmm(fig01_panels$fits$yield_substrip))),
+  yield_pooled      = list(anova = as.data.frame(anova_glmm(fig01_panels$fits$yield_pooled))),
+  quality_substrip  = list(anova = as.data.frame(anova_glmm(fig01_panels$fits$quality_substrip))),
+  quality_pooled    = list(anova = as.data.frame(anova_glmm(fig01_panels$fits$quality_pooled))),
+  yield_management  = list(anova = as.data.frame(anova_glmm(fig01_panels$fits$yield_management)))
+)
+fig01_omnibus <- fig01_omnibus_table(fig01_result_for_table)
+fig01_omnibus |>
+  kableExtra::kbl(digits = 3, caption = "Figure 1: omnibus (Type II Wald chi-square) tests per model") |>
+  kableExtra::kable_styling(bootstrap_options = c("striped", "condensed"), full_width = FALSE)
+```
+
+```{r fig01-omnibus-save}
+#| message: false
+save_report_table(gt::fmt_number(gt::gt(fig01_omnibus), columns = c(Df, Chisq, P), decimals = 3),
+                   fig01_omnibus, "manuscript", "Fig01_omnibus_tests")
 ```

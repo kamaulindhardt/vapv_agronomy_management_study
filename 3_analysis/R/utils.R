@@ -36,12 +36,41 @@ residue_colors <- c(
 # delta-E floor against all four other crop colors under protan/deuter/tritan
 # simulation (worst case 18.5) rather than leaving a latent accessibility bug
 # for the first figure that does use it.
+#' Row-position palette (West/Centre/East, relative to the PV rows) --
+#' shared across every figure that encodes this dimension (currently
+#' Figure 2 panel B), so the same 3 colours mean the same 3 positions
+#' everywhere in the manuscript. "Centre" (not "Middle") is the
+#' manuscript-facing spelling throughout.
+position_colors <- c(
+  "West"   = "#1B9E77",
+  "Centre" = "#D95F02",
+  "East"   = "#7570B3"
+)
+
 crop_colors <- c(
   "WW" = "#F1A983",
-  "SB" = "#FFD966",
+  "SB" = "#D9A404",
   "GC" = "#4EA72E",
   "RG" = "#5E5A80",
   "SY" = "#44B3E1"
+)
+# "SB" was originally "#FFD966" (pale yellow) -- low contrast against a white
+# panel background, flagged directly by feedback on the Figure 1 draft.
+# Darkened to a mustard/ochre tone; still distinct from "WW"'s warm tan under
+# protan/deuter/tritan simulation (spot-checked, not re-run through the full
+# OKLab delta-E sweep the rest of this palette was validated with).
+
+#' Point shapes per crop, redundant with crop_colors so crop identity does
+#' not depend on colour alone (grayscale/colour-blind accessibility). Solid
+#' shapes whose visible colour is controlled by `colour` alone (no separate
+#' `fill` aesthetic needed), so they drop into existing `aes(colour = CROP)`
+#' plots as `aes(colour = CROP, shape = CROP)` with no other changes.
+crop_shapes <- c(
+  "WW" = 16, # circle
+  "SY" = 17, # triangle
+  "GC" = 15, # square
+  "SB" = 18, # diamond
+  "RG" = 8   # star
 )
 
 # ---- Label shortening --------------------------------------------------------

@@ -79,6 +79,12 @@ daisy_strip_col_map <- function() {
 #' @param daisy_drain_cols unique daisy_col values actually available (from
 #'   load_daisy_drainage()) -- when only one column is available, all strips
 #'   collapse onto it so no strip gets NA drainage.
+#'
+#' Carries `sub_strip_location` (WEST/MIDDLE/EAST) through the whole DL
+#' pipeline alongside `location` (BETWEEN_PV/OUTSIDE_PV) -- both are fully
+#' balanced in soil_water_long (384 obs each of the 6 location x
+#' sub_strip_location combinations) but were previously dropped here, before
+#' Figure 2's substrip-specific panels needed them.
 prepare_sc_valid <- function(soil_water_long, daisy_drain_cols) {
   daisy_col_map_eff <- if (length(daisy_drain_cols) == 1) {
     daisy_strip_col_map() |> dplyr::mutate(daisy_col = daisy_drain_cols[1])
@@ -92,7 +98,7 @@ prepare_sc_valid <- function(soil_water_long, daisy_drain_cols) {
     dplyr::left_join(daisy_col_map_eff, by = "strip") |>
     dplyr::mutate(daisy_col = dplyr::coalesce(daisy_col, daisy_drain_cols[1])) |>
     dplyr::select(suction_cup, strip, plot_no, fertilisation, residue, location,
-                  crop, daisy_col, date, no3_mg_l, below_dl) |>
+                  sub_strip_location, crop, daisy_col, date, no3_mg_l, below_dl) |>
     dplyr::arrange(suction_cup, date)
 }
 
@@ -131,7 +137,7 @@ build_dl_conc_daily <- function(sc_valid) {
   sc_valid |>
     dplyr::filter(suction_cup %in% cups_enough) |>
     dplyr::group_by(suction_cup, strip, plot_no, fertilisation, residue,
-                    location, crop, daisy_col) |>
+                    location, sub_strip_location, crop, daisy_col) |>
     dplyr::group_modify(~ interp_daily_no3(dplyr::select(.x, date, no3_mg_l))) |>
     dplyr::ungroup()
 }
@@ -163,7 +169,7 @@ aggregate_dl_by_period <- function(dl_leaching_daily, sampling_dates) {
     ) |>
     dplyr::filter(!is.na(period_start)) |>
     dplyr::group_by(suction_cup, strip, plot_no, fertilisation, residue,
-                    location, crop, daisy_col, period_start) |>
+                    location, sub_strip_location, crop, daisy_col, period_start) |>
     dplyr::summarise(
       drainage_mm = sum(drainage_mm, na.rm = TRUE),
       N_LI_kgNha  = sum(N_LI, na.rm = TRUE),
@@ -183,7 +189,7 @@ aggregate_dl_by_period <- function(dl_leaching_daily, sampling_dates) {
 summarise_dl_total <- function(dl_leaching_daily) {
   dl_leaching_daily |>
     dplyr::group_by(suction_cup, strip, plot_no, fertilisation, residue,
-                    location, crop, daisy_col) |>
+                    location, sub_strip_location, crop, daisy_col) |>
     dplyr::summarise(
       period_days = dplyr::n(),
       drainage_mm = sum(drainage_mm, na.rm = TRUE),

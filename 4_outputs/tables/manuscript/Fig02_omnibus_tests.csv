@@ -1,0 +1,17 @@
+Response,Model,Term,Df,Chisq,P
+NO3-N leaching,NO3-N leaching: substrip model,GLOBAL_SUB_STRIP_LOCATION,5,24.841742281399316,1.494866114677312e-4
+NO3-N leaching,NO3-N leaching: substrip model,crop,1,228.28862548716478,1.407896612908849e-51
+NO3-N leaching,NO3-N leaching: management model,crop,1,175.1745635256299,5.4838630369113205e-40
+NO3-N leaching,NO3-N leaching: management model,fertilisation,1,0.06936445223720916,0.7922643937533113
+NO3-N leaching,NO3-N leaching: management model,residue,1,3.053497430111465,0.08056348041552318
+NO3-N leaching,NO3-N leaching: management model,crop:fertilisation,1,0.6605434358163875,0.4163681555510494
+NO3-N leaching,NO3-N leaching: management model,crop:residue,1,0.004704827090940241,0.9453145921976209
+NO3-N leaching,NO3-N leaching: management model,fertilisation:residue,1,0.2911451452975326,0.5894876271458146
+NO3-N leaching,NO3-N leaching: management model,crop:fertilisation:residue,1,0.7108850206702784,0.3991501629715149
+NO3-N leaching,NO3-N leaching: main-effects model,location,1,11.749065262503395,6.08738022134241e-4
+NO3-N leaching,NO3-N leaching: main-effects model,fertilisation,1,0.00713558983505844,0.9326808296572782
+NO3-N leaching,NO3-N leaching: main-effects model,residue,1,4.562356518734524,0.03268207521646907
+NO3-N leaching,NO3-N leaching: main-effects model,crop,1,208.93226050287402,2.3486541105993943e-47
+NO3-N leaching,NO3-N leaching: main-effects model,location:fertilisation,1,0.8791390616991176,0.3484375919026021
+NO3-N leaching,NO3-N leaching: main-effects model,location:residue,1,0.518283458419797,0.47157482963405417
+NO3-N leaching,NO3-N leaching: main-effects model,fertilisation:residue,1,0.7354094714881008,0.3911353680095358

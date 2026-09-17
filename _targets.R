@@ -269,7 +269,83 @@ list(
   )),
 
   # ============================================================
-  # STAGE 7: REPORT
+  # STAGE 7: MANUSCRIPT FIGURES (4_outputs/main_figures/, suppl_figures/,
+  # model_review/) -- see 3_analysis/R/functions_manuscript_figures.R for the
+  # shared design system and 3_analysis/R/fig01_*.R etc. for each figure.
+  # Candidate manuscript models (functions_statistics.R) are fit INSIDE each
+  # fig0N_result target and never exported live -- see assemble_fig01()'s
+  # docstring.
+  # ============================================================
+
+  # Dimensions per manuscript spec: Fig1 ~8.0 x 9.2in, Fig2 ~8.0 x 8.7in --
+  # explicit `width` (not `width_class`) so these exact values are used
+  # rather than the "double"-column default (7.5in).
+  tar_target(fig01_result, assemble_fig01(study2_yield_analysis_ready)),
+  tar_target(
+    fig01_file,
+    save_manuscript_figure(fig01_result$composite, "Fig01_crop_productivity",
+                            subdir = "main_figures", width = 8.0, height = 9.2),
+    format = "file"
+  ),
+  tar_target(
+    fig01_caption_file,
+    save_figure_caption(fig01_caption(), "Fig01_crop_productivity", subdir = "main_figures"),
+    format = "file"
+  ),
+  tar_target(
+    fig01_stats_table_file,
+    { tbl <- fig01_omnibus_table(fig01_result)
+      save_report_table(gt::fmt_number(gt::gt(tbl), columns = c(Df, Chisq, P), decimals = 3),
+                         tbl, "manuscript", "Fig01_omnibus_tests") },
+    format = "file"
+  ),
+
+  # -- Figure 2 (NO3 leaching) -- see 3_analysis/R/fig02_nitrate_leaching.R.
+  # Depends on no3_leaching_result (Stage 4 above), whose prepare_sc_valid()
+  # now also carries sub_strip_location through the DL pipeline for this
+  # figure's substrip-specific panels (functions_no3_leaching.R), and on
+  # crop_calendar (Stage 2 above) for panel A's real sowing/harvest markers.
+  tar_target(fig02_result, assemble_fig02(no3_leaching_result, crop_calendar = crop_calendar)),
+  tar_target(
+    fig02_file,
+    save_manuscript_figure(fig02_result$composite, "Fig02_nitrate_leaching",
+                            subdir = "main_figures", width = 8.0, height = 8.7),
+    format = "file"
+  ),
+  tar_target(
+    fig02_caption_file,
+    save_figure_caption(fig02_caption(), "Fig02_nitrate_leaching", subdir = "main_figures"),
+    format = "file"
+  ),
+  tar_target(
+    fig02_stats_table_file,
+    { tbl <- fig02_omnibus_table(fig02_result)
+      save_report_table(gt::fmt_number(gt::gt(tbl), columns = c(Df, Chisq, P), decimals = 3),
+                         tbl, "manuscript", "Fig02_omnibus_tests") },
+    format = "file"
+  ),
+
+  # -- Figure 3 (soil carbon) -- see 2_preprocessing/R/functions_soil_chemistry.R
+  # for the IUNG soil-chemistry import and its coverage caveats.
+  tar_target(raw_iung_soil_xlsx,
+             data_path("soil_survey", "RESULTS_SOIL_ANALYSIS_IUNG.xlsx"),
+             format = "file"),
+  tar_target(iung_soil_analysis_ready, build_iung_soil_dataset(raw_iung_soil_xlsx)),
+  tar_target(fig03_result, assemble_fig03(iung_soil_analysis_ready)),
+  tar_target(
+    fig03_file,
+    save_manuscript_figure(fig03_result$composite, "Fig03_soil_carbon",
+                            subdir = "main_figures", width_class = "double", height = 8),
+    format = "file"
+  ),
+  tar_target(
+    fig03_caption_file,
+    save_figure_caption(fig03_caption(), "Fig03_soil_carbon", subdir = "main_figures"),
+    format = "file"
+  ),
+
+  # ============================================================
+  # STAGE 8: REPORT
   # ============================================================
 
   tarchetypes::tar_render(

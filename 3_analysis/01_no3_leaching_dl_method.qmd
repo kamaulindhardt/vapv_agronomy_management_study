@@ -14,15 +14,7 @@ editor: visual
 
 ## Purpose
 
-Standalone, step-by-step walkthrough of the Drainage-Linear (DL) nitrate
-leaching method (Vogeler, Thomas, van der Linden & Bolan, 2020, *J. Environ.
-Qual.* 49(2), 338-347: `N_i [kg N/ha] = C_i [mg NO3-N/L] x D_i [mm] x 0.01`),
-mirroring the original `SOIL_WATER.Rmd` STEP 4 this repo's DL implementation
-was ported from. Calls the functions in
-`3_analysis/R/functions_no3_leaching.R` directly -- nothing here reimplements
-the method. The 4 figures in Step 6 are the pipeline's existing preliminary
-figures, shown as-is (not regenerated with the design system below -- see
-`4_outputs/README.md`).
+Standalone, step-by-step walkthrough of the Drainage-Linear (DL) nitrate leaching method (Vogeler, Thomas, van der Linden & Bolan, 2020, *J. Environ. Qual.* 49(2), 338-347: `N_i [kg N/ha] = C_i [mg NO3-N/L] x D_i [mm] x 0.01`), mirroring the original `SOIL_WATER.Rmd` STEP 4 this repo's DL implementation was ported from. Calls the functions in `3_analysis/R/functions_no3_leaching.R` directly -- nothing here reimplements the method. The 4 figures in Step 6 are the pipeline's existing preliminary figures, shown as-is (not regenerated with the design system below -- see `4_outputs/README.md`).
 
 ```{r setup}
 #| message: false
@@ -30,18 +22,26 @@ figures, shown as-is (not regenerated with the design system below -- see
 library(tidyverse)
 library(here)
 library(kableExtra)
+library(gt)
+library(glmmTMB)
+library(DHARMa)
+library(car)
+library(emmeans)
+library(patchwork)
 
 source(here("2_preprocessing", "R", "functions_soil_water.R"))
 source(here("2_preprocessing", "R", "functions_management.R"))
 source(here("3_analysis", "R", "functions_no3_leaching.R"))
+source(here("3_analysis", "R", "functions_statistics.R"))
+source(here("3_analysis", "R", "functions_manuscript_figures.R"))
+source(here("3_analysis", "R", "fig02_nitrate_leaching.R"))
 source(here("3_analysis", "R", "utils.R"))
 source(here("3_analysis", "R", "plot_theme.R"))
 ```
 
 ## Step 1: Recap -- suction-cup concentration data
 
-Quick recap of `2_preprocessing/03_soil_water_import.qmd` (see that document
-for the detailed EDA); this method needs `soil_water_long`.
+Quick recap of `2_preprocessing/03_soil_water_import.qmd` (see that document for the detailed EDA); this method needs `soil_water_long`.
 
 ```{r recap-soil-water}
 #| message: false
@@ -57,9 +57,7 @@ cat("Measurement period:", format(soil_water_window["start"]), "-", format(soil_
 
 ## Step 2: Load Daisy drainage output
 
-Daisy v7.1.3 simulated daily drainage at 1 m depth, per rotation strip (A2 =
-WW-SY-WW, A3 = GC-GC-SB) -- consumed here as a read-only model output (see
-`1_input_data/README.md`).
+Daisy v7.1.3 simulated daily drainage at 1 m depth, per rotation strip (A2 = WW-SY-WW, A3 = GC-GC-SB) -- consumed here as a read-only model output (see `1_input_data/README.md`).
 
 ```{r daisy-drainage}
 daisy_drain_all  <- load_daisy_drainage(here("1_input_data", "daisy_water_balance"))
@@ -85,8 +83,7 @@ sc_valid |> glimpse()
 
 ## Step 4: Interpolate to daily concentration (LI / FC / BC)
 
-Three interpolation methods per Vogeler et al. (2020): **LI** (linear,
-recommended), **FC** (forward-constant), **BC** (backward-constant).
+Three interpolation methods per Vogeler et al. (2020): **LI** (linear, recommended), **FC** (forward-constant), **BC** (backward-constant).
 
 ```{r daily-conc}
 dl_conc_daily <- build_dl_conc_daily(sc_valid)
@@ -138,8 +135,115 @@ no3_dl_vs_daisy_validation |>
 plot_no3_dl_vs_daisy(dl_leaching_daily, daisy_no3_leaching, no3_dl_vs_daisy_validation)
 ```
 
+## Step 8: Manuscript Figure 2 -- nitrate leaching under VAPV, rotation & management
+
+This is the manuscript-ready figure (`3_analysis/R/fig02_nitrate_leaching.R`), distinct from Steps 4-7 above (which walk through the DL method itself). It needs `sub_strip_location` (west/centre/east), which Step 3's `prepare_sc_valid()` now carries through the whole DL pipeline alongside `location` (open field/VAPV) -- both fully balanced (384 obs each of the 6 combinations in `soil_water_long`). Assemble the same `no3_leaching_result` list `_targets.R` builds (`daily`/`by_period`/`total`) from the objects already built in Steps 3-5 above, so this section is a direct continuation rather than a re-import:
+
+```{r fig02-build-result-list}
+no3_leaching_result <- list(daily = dl_leaching_daily, by_period = dl_by_period, total = dl_total)
+```
+
+### Step 8a: fit the 3 candidate models and build each subfigure
+
+`fig02_build_panels()` fits `fit_no3_substrip_model`, `fit_no3_management_model` and `fit_no3_model_manuscript` (see `functions_statistics.R`) and builds each of the 5 panels as a standalone ggplot object -- shown individually below before compositing. `crop_calendar` (already loaded in Step 1) supplies panel A's real sowing/harvest event markers (`fig02_rotation_events()`) -- no dates are invented.
+
+```{r fig02-build-panels}
+#| message: false
+#| warning: false
+fig02_panels <- fig02_build_panels(no3_leaching_result, crop_calendar = crop_calendar)
+```
+
+```{r fig02-model-summary}
+tibble::tibble(
+  model = c("substrip", "management", "forest"),
+  formula = purrr::map_chr(fig02_panels$fits, ~ paste(deparse(stats::formula(.x)), collapse = " ")),
+  n_obs = purrr::map_int(fig02_panels$fits, stats::nobs),
+  converged = purrr::map_lgl(fig02_panels$fits, ~ isTRUE(.x$sdr$pdHess))
+)
+```
+
+**Panel A -- cumulative leaching through time by rotation:**
+
+```{r fig02-panel-a}
+#| fig-width: 8
+#| fig-height: 4.5
+fig02_panels$panel_a
+```
+
+**Panel B -- cumulative leaching through time by substrip position:**
+
+```{r fig02-panel-b}
+#| fig-width: 8
+#| fig-height: 4.5
+fig02_panels$panel_b
+```
+
+**Panel C -- final cumulative leaching by substrip position:**
+
+```{r fig02-panel-c}
+#| fig-width: 7
+#| fig-height: 4.5
+fig02_panels$panel_c
+```
+
+**Panel D -- fertiliser x residue by rotation:**
+
+```{r fig02-panel-d}
+#| fig-width: 7
+#| fig-height: 4.5
+fig02_panels$panel_d
+```
+
+**Panel E -- model-effect forest plot:**
+
+```{r fig02-panel-e}
+#| fig-width: 7
+#| fig-height: 5
+fig02_panels$panel_e
+```
+
+### Step 8b: assemble the composite
+
+`fig02_assemble_composite()` takes the 5 already-built panels above and lays them out into the final manuscript figure -- the SAME function `_targets.R`'s `fig02_result` target calls internally, so this composite is identical to the one `tar_make()` produces.
+
+```{r fig02-composite}
+#| fig-width: 8.0
+#| fig-height: 8.7
+fig02_composite <- fig02_assemble_composite(fig02_panels)
+fig02_composite
+```
+
+Save to `4_outputs/main_figures/` -- the same call `_targets.R`'s `fig02_file`/`fig02_caption_file` targets make, so this reproduces those files exactly:
+
+```{r fig02-save}
+#| message: false
+save_manuscript_figure(fig02_composite, "Fig02_nitrate_leaching",
+                        subdir = "main_figures", width = 8.0, height = 8.7)
+save_figure_caption(fig02_caption(), "Fig02_nitrate_leaching", subdir = "main_figures")
+```
+
+### Step 8c: omnibus statistical test table
+
+Figures show effect sizes and 95% CIs; this table is the formal-test counterpart (Type II Wald chi-square tests). Built from the SAME 3 model objects `fig02_panels$fits` already fitted in Step 8a -- `anova_glmm()` (`car::Anova()`) is a Wald test on an already-fitted model, not a refit.
+
+```{r fig02-omnibus-table}
+fig02_result_for_table <- list(
+  substrip   = list(anova = as.data.frame(anova_glmm(fig02_panels$fits$substrip))),
+  management = list(anova = as.data.frame(anova_glmm(fig02_panels$fits$management))),
+  forest     = list(anova = as.data.frame(anova_glmm(fig02_panels$fits$forest)))
+)
+fig02_omnibus <- fig02_omnibus_table(fig02_result_for_table)
+fig02_omnibus |>
+  kableExtra::kbl(digits = 3, caption = "Figure 2: omnibus (Type II Wald chi-square) tests per model") |>
+  kableExtra::kable_styling(bootstrap_options = c("striped", "condensed"), full_width = FALSE)
+```
+
+```{r fig02-omnibus-save}
+#| message: false
+save_report_table(gt::fmt_number(gt::gt(fig02_omnibus), columns = c(Df, Chisq, P), decimals = 3),
+                   fig02_omnibus, "manuscript", "Fig02_omnibus_tests")
+```
+
 ## Next step
 
-`02_yield_and_quality_models.qmd` fits the generic GLMM factory to this same
-`no3_leaching` outcome (`dl_total`, renamed `no3_leaching_analysis_ready` in
-the pipeline) alongside yield and quality.
+`02_yield_and_quality_models.qmd` fits the generic GLMM factory to this same `no3_leaching` outcome (`dl_total`, renamed `no3_leaching_analysis_ready` in the pipeline) alongside yield and quality.
