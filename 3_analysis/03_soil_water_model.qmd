@@ -14,10 +14,7 @@ editor: visual
 
 ## Purpose
 
-Standalone walkthrough of `fit_soil_water_model()` -- like NO3-N leaching,
-this outcome had no formal statistical test before this pipeline, only
-descriptive plots. No preliminary figures exist for it, so both figures
-here are new (design system).
+Standalone walkthrough of `fit_soil_water_model()` -- like NO3-N leaching, this outcome had no formal statistical test before this pipeline, only descriptive plots. No preliminary figures exist for it, so both figures here are new (design system).
 
 ```{r setup}
 #| message: false
@@ -47,9 +44,7 @@ tdr_analysis_ready  <- derive_tdr_covariates(tdr_clean_combined)
 
 ## Step 2: Fit, diagnose, and test
 
-`fit_soil_water_model()`: `SOIL_WATER_CONTENT ~ LOCATION + TREATMENT + CROP`,
-no spatial structure (LOCATION is itself a per-nest property here -- see the
-function's docstring for why `(1 | SUB_STRIP)` isn't usable), Gamma(link = "log").
+`fit_soil_water_model()`: `SOIL_WATER_CONTENT ~ LOCATION + TREATMENT + CROP`, no spatial structure (LOCATION is itself a per-nest property here -- see the function's docstring for why `(1 | SUB_STRIP)` isn't usable), Gamma(link = "log").
 
 ```{r fit}
 soil_water_fit <- fit_soil_water_model(tdr_analysis_ready)

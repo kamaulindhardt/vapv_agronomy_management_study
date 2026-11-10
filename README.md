@@ -56,6 +56,20 @@ renv::restore()       # installs the exact package versions in renv.lock
 targets::tar_make()   # runs the full pipeline
 ```
 
+`renv::restore()` installs everything in one pass. If a prebuilt binary
+isn't available yet for your R version (common for whichever package most
+recently had a CRAN release), it falls back to compiling that one from
+source, which can add a few extra minutes for compiled packages like `sf`,
+`terra`, or `lme4` -- this is normal, not a stall.
+
+Rendering the report also needs a working Pandoc install, separate from the
+`pandoc` R package `renv::restore()` installs above. If none is found on
+your system, run once:
+
+```r
+pandoc::pandoc_install()
+```
+
 Regenerating the field-management calendar (`4_outputs/data/field_management/`)
 requires a `python` interpreter with `pandas` on `PATH`; if none is found,
 the pipeline falls back to the two CSVs already committed there.
