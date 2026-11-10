@@ -1,0 +1,12 @@
+domain,item,n,handling
+Yield,Winter wheat 2025 plots with no yield recorded (blank template in the raw workbook),24,Excluded; winter wheat 2025 is absent from all yield results
+Yield,Ryegrass 2025 duplicate placeholder rows without data,24,Dropped (one real record per plot remains)
+Yield,"Grass-clover 2025 plots without cut 1 (strip A1, nests N1-N6)",6,Plots excluded from annual totals (incomplete season); strip A4 only for GC 2025
+NO3 leaching,Suction-cup samples with no concentration value,54,Not used in concentration summaries; the DL method interpolates linearly between valid samples
+NO3 leaching,Suction-cup samples flagged below detection limit,95,Kept at the value stored by the pipeline (not set to zero)
+Soil water (TDR),Records missing a measurement-year field (date recovered from file name),34,Date taken from the ddmmyy in the file name for all records
+Soil water (TDR),Records with no water-content value,54,Dropped
+Soil water (TDR),Date x nest x plot x probe combinations recorded in more than one file (crop-labelled copies),324,Averaged to one value per combination; sensitivity check using first record only is in tbl_tdr_overall
+Soil water (TDR),Water-content values above 45 vol-% (near saturation for this sandy soil),1,Retained (physically possible when wet); flagged only
+Soil carbon (IUNG),Samples in the IUNG dataset,114,Every sample code is a distinct physical point; rounds are NOT repeated measures at the same spot
+Soil carbon (IUNG),Samples with fertiliser identity resolved,40,"Fertiliser / residue effects on SOC not analysed (too sparse, confounded with survey round)"

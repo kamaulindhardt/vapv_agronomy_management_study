@@ -1,0 +1,7 @@
+domain,data,period,n,unit,note
+Crop productivity,"Dry-matter yield of primary product (grain; biomass for grass-clover, barley, ryegrass)",2023-2025 seasons,180 plot-yields (8 crop-years),Plot (1 of 4 treatment plots per nest),Winter wheat 2025 not yet entered; grass-clover 2023 = 3 cuts only
+Crop productivity,"Total N in harvested product (tissue N, %)",2024 only,84 plot values,Plot,"Winter wheat, soybean, grass-clover only"
+Nitrate leaching,Suction-cup NO3-N at 1 m + Daisy drainage (Drainage-Linear method),13 Sep 2024 to 1 Apr 2026,"47 cups, 27 sampling dates",Cup (4 per nest; 12 nests),Only strips A2 and A3; one drainage series per strip (same for VAPV and open field)
+Soil water,TDR volumetric water content (20 and 50 cm probes),"33 paired sampling dates, Mar-Aug 2024 and May-Sep 2025","456 nest-date values, 12 nests",Nest (2-4 plots each),Open field = centre-position nests only (3 nests); no winter data
+Soil carbon,"Soil organic carbon, IUNG laboratory (3 survey rounds)",2024 survey; 2025 T1 and T2,"114 samples, 18 nests",Sample (distinct points per round),Different physical points each round; no sampling dates in dataset
+Soil carbon,"Baseline soil survey, total C by depth (Aarhus University lab)",Winter 2024-25,20 nests x 3 depths,Nest,"West and East nests only (no centre); single survey, no repeat"

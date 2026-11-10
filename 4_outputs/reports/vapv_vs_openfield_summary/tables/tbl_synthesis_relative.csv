@@ -1,0 +1,23 @@
+outcome,env,pos,n,mean,se
+Crop yield (8 crop-years),Open field,West,30,97.96477515434545,2.1320657676033283
+Crop yield (8 crop-years),Open field,Centre,30,101.12027648349815,2.4371489079258946
+Crop yield (8 crop-years),Open field,East,30,100.91494836215641,2.5505779943823517
+Crop yield (8 crop-years),VAPV,West,30,96.23377219893725,2.3891818592713885
+Crop yield (8 crop-years),VAPV,Centre,30,102.0255708461831,3.1543039698712945
+Crop yield (8 crop-years),VAPV,East,30,85.9347940945548,2.7930340077697653
+NO3-N leaching (strips A2 and A3),Open field,West,8,91.33606578690171,17.953764273041244
+NO3-N leaching (strips A2 and A3),Open field,Centre,8,67.74403524895295,10.28174434526295
+NO3-N leaching (strips A2 and A3),Open field,East,8,140.91989896414532,28.235686036224894
+NO3-N leaching (strips A2 and A3),VAPV,West,8,220.27718051055115,48.651215475328705
+NO3-N leaching (strips A2 and A3),VAPV,Centre,8,139.68210930577152,20.446204005571953
+NO3-N leaching (strips A2 and A3),VAPV,East,7,148.6068934523049,23.208638131622223
+"Soil water content (TDR, both probes)",VAPV,West,3,114.70135213831078,3.085037441512168
+"Soil water content (TDR, both probes)",VAPV,Centre,3,104.00642434670368,2.328069598291213
+"Soil water content (TDR, both probes)",VAPV,East,3,107.82777709139351,3.9615844278771166
+"Soil water content (TDR, both probes)",Open field,Centre,3,100,NA
+"Soil organic carbon (IUNG, 3 rounds)",Open field,West,19,98.55250309770611,1.889521233745868
+"Soil organic carbon (IUNG, 3 rounds)",Open field,Centre,19,100.58515047056278,1.5212072378475812
+"Soil organic carbon (IUNG, 3 rounds)",Open field,East,19,100.86234643173111,0.7878417730021317
+"Soil organic carbon (IUNG, 3 rounds)",VAPV,West,19,105.73584686398667,0.6941553366776995
+"Soil organic carbon (IUNG, 3 rounds)",VAPV,Centre,19,103.77078994230004,1.0790089409721113
+"Soil organic carbon (IUNG, 3 rounds)",VAPV,East,19,103.40389295400733,1.118819290989733
