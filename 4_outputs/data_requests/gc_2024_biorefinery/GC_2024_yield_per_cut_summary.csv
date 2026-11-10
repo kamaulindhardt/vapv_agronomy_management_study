@@ -1,0 +1,21 @@
+"position","fertiliser","cut","cut_date","n_plots","fm_yield_mean_t_ha","fm_yield_sd_t_ha","dm_content_mean_pct","dm_content_sd_pct","dm_yield_mean_t_ha","dm_yield_sd_t_ha"
+"Between PV","Biogas digestate",1,"2024-05-22",6,25.976,3.435,18.484,0.534,4.79,0.541
+"Between PV","Biogas digestate",2,"2024-06-25",6,19.917,1.734,16.157,1.189,3.206,0.194
+"Between PV","Biogas digestate",3,"2024-07-25",6,17.962,1.91,15.338,0.574,2.755,0.315
+"Between PV","Biogas digestate",4,"2024-09-05",6,14.855,1.919,15.73,0.466,2.337,0.316
+"Between PV","Biogas digestate",5,"2024-10-14",6,4.384,0.562,21.887,0.642,0.958,0.111
+"Between PV","Mineral fertiliser",1,"2024-05-22",6,27.159,5.042,18.272,2.001,4.896,0.59
+"Between PV","Mineral fertiliser",2,"2024-06-25",6,18.018,2.935,16.887,1.311,3.014,0.314
+"Between PV","Mineral fertiliser",3,"2024-07-25",6,15.596,1.671,16.895,1.186,2.623,0.208
+"Between PV","Mineral fertiliser",4,"2024-09-05",6,11.592,1.753,17.583,1.789,2.018,0.219
+"Between PV","Mineral fertiliser",5,"2024-10-14",6,3.636,0.552,22.861,1.094,0.832,0.145
+"Outside PV","Biogas digestate",1,"2024-05-22",6,24.523,5.168,18.688,2.075,4.532,0.781
+"Outside PV","Biogas digestate",2,"2024-06-25",6,18.999,2.988,17.866,1.509,3.364,0.353
+"Outside PV","Biogas digestate",3,"2024-07-25",6,15.226,3.757,16.392,1.052,2.468,0.477
+"Outside PV","Biogas digestate",4,"2024-09-05",6,13.631,3.553,16.892,1.676,2.255,0.453
+"Outside PV","Biogas digestate",5,"2024-10-14",6,3.197,1.541,23.001,1.603,0.725,0.321
+"Outside PV","Mineral fertiliser",1,"2024-05-22",6,32.837,5.007,16.888,1.48,5.504,0.602
+"Outside PV","Mineral fertiliser",2,"2024-06-25",6,20.361,4.021,16.943,1.242,3.427,0.624
+"Outside PV","Mineral fertiliser",3,"2024-07-25",6,16.958,2.557,16.716,0.938,2.816,0.284
+"Outside PV","Mineral fertiliser",4,"2024-09-05",6,14.288,1.36,17.114,0.597,2.442,0.208
+"Outside PV","Mineral fertiliser",5,"2024-10-14",6,3.525,1.33,22.283,0.677,0.788,0.303
